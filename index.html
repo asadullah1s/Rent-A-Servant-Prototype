@@ -1,10 +1,3 @@
-The error occurs because `var(--radius-sm)` is used directly in a React style object, but `var()` is a CSS function, not valid JavaScript. In React inline styles, CSS custom properties must be quoted as strings.
-
-I've fixed all instances by changing `var(--radius-sm)` to `'var(--radius-sm)'` and also corrected a few other style syntax issues. The app now runs without the Babel compilation error.
-
-Here's the complete working HTML file:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,16 +5,12 @@ Here's the complete working HTML file:
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Rent a Servant — Prototype</title>
 
-    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
-        /* ============================================================
-                   GLOBAL RESET & VARIABLES
-                   ============================================================ */
         *,
         *::before,
         *::after {
@@ -1301,25 +1290,14 @@ Here's the complete working HTML file:
     </script>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef, useCallback, memo } = React;
+        const { useState, useEffect } = React;
 
-        const ONBOARDING_SCREENS = [{
-            icon: 'fa-solid fa-magnifying-glass',
-            title: 'Find Trusted Help',
-            desc: 'Find professionals for your home and workplace.'
-        }, {
-            icon: 'fa-solid fa-shield-check',
-            title: 'Verified Professionals',
-            desc: 'Every professional goes through our verification process.'
-        }, {
-            icon: 'fa-solid fa-id-card',
-            title: 'Safety First',
-            desc: 'Identity verification and mandatory police clearance for service providers.'
-        }, {
-            icon: 'fa-solid fa-handshake',
-            title: 'Hire With Confidence',
-            desc: 'Compare professionals, offers, ratings and experience.'
-        }];
+        const ONBOARDING_SCREENS = [
+            { icon: 'fa-solid fa-magnifying-glass', title: 'Find Trusted Help', desc: 'Find professionals for your home and workplace.' },
+            { icon: 'fa-solid fa-shield-check', title: 'Verified Professionals', desc: 'Every professional goes through our verification process.' },
+            { icon: 'fa-solid fa-id-card', title: 'Safety First', desc: 'Identity verification and mandatory police clearance for service providers.' },
+            { icon: 'fa-solid fa-handshake', title: 'Hire With Confidence', desc: 'Compare professionals, offers, ratings and experience.' }
+        ];
 
         const POPULAR_SERVICES = [
             { icon: 'fa-solid fa-broom', label: 'House Cleaner' },
@@ -1384,64 +1362,30 @@ Here's the complete working HTML file:
             bio: 'Licensed electrician with 8 years of experience. Specializing in residential and commercial wiring.'
         }, ];
 
-        const OFFERS = [{
-            id: 1,
-            name: 'Maria Khan',
-            profession: 'House Cleaner',
-            rating: 4.9,
-            experience: '6 Years',
-            price: 3200,
-            avatar: 'MK',
-        }, {
-            id: 2,
-            name: 'Sana Ahmed',
-            profession: 'House Cleaner',
-            rating: 4.8,
-            experience: '4 Years',
-            price: 2800,
-            avatar: 'SA',
-        }, {
-            id: 3,
-            name: 'Ali Raza',
-            profession: 'House Cleaner',
-            rating: 5.0,
-            experience: '8 Years',
-            price: 3500,
-            avatar: 'AR',
-        }, ];
+        const OFFERS = [
+            { id: 1, name: 'Maria Khan', profession: 'House Cleaner', rating: 4.9, experience: '6 Years', price: 3200,
+                avatar: 'MK' },
+            { id: 2, name: 'Sana Ahmed', profession: 'House Cleaner', rating: 4.8, experience: '4 Years', price: 2800,
+                avatar: 'SA' },
+            { id: 3, name: 'Ali Raza', profession: 'House Cleaner', rating: 5.0, experience: '8 Years', price: 3500,
+                avatar: 'AR' },
+        ];
 
-        const BOOKINGS = [{
-            id: 1,
-            worker: 'Maria Khan',
-            service: 'House Cleaning',
-            date: '10 September 2026',
-            time: '10:00 AM',
-            price: 3200,
-            status: 'upcoming'
-        }, {
-            id: 2,
-            worker: 'Ahmed Ali',
-            service: 'Cooking Service',
-            date: '12 September 2026',
-            time: '1:00 PM',
-            price: 3500,
-            status: 'active'
-        }, {
-            id: 3,
-            worker: 'Fatima Noor',
-            service: 'Babysitting',
-            date: '5 September 2026',
-            time: '9:00 AM',
-            price: 1800,
-            status: 'completed'
-        }, ];
+        const BOOKINGS = [
+            { id: 1, worker: 'Maria Khan', service: 'House Cleaning', date: '10 September 2026', time: '10:00 AM',
+                price: 3200, status: 'upcoming' },
+            { id: 2, worker: 'Ahmed Ali', service: 'Cooking Service', date: '12 September 2026', time: '1:00 PM',
+                price: 3500, status: 'active' },
+            { id: 3, worker: 'Fatima Noor', service: 'Babysitting', date: '5 September 2026', time: '9:00 AM',
+                price: 1800, status: 'completed' },
+        ];
 
         const CHAT_MESSAGES = [
             { id: 1, text: 'Hi Maria! I need house cleaning tomorrow.', sent: true, time: '10:30 AM' },
             { id: 2, text: 'Hello! Yes I am available. What time works for you?', sent: false, time: '10:32 AM' },
             { id: 3, text: '10 AM would be perfect. Deep cleaning please.', sent: true, time: '10:33 AM' },
             { id: 4, text: 'Sure, I can do deep cleaning. The price will be PKR 3,200.', sent: false,
-            time: '10:35 AM' },
+                time: '10:35 AM' },
             { id: 5, text: 'That works for me. See you tomorrow!', sent: true, time: '10:36 AM' },
         ];
 
@@ -1492,8 +1436,6 @@ Here's the complete working HTML file:
             const [theme, setTheme] = useState('light');
             const [screen, setScreen] = useState('splash');
             const [onboardIndex, setOnboardIndex] = useState(0);
-            const [userType, setUserType] = useState(null);
-            const [loggedIn, setLoggedIn] = useState(false);
             const [phone, setPhone] = useState('');
             const [otp, setOtp] = useState('');
             const [otpScreen, setOtpScreen] = useState(false);
@@ -1503,11 +1445,43 @@ Here's the complete working HTML file:
             const [workerTab, setWorkerTab] = useState('home');
             const [showModal, setShowModal] = useState(false);
             const [modalAction, setModalAction] = useState(null);
-            const [bookingConfirmed, setBookingConfirmed] = useState(false);
             const [workerOnline, setWorkerOnline] = useState(true);
             const [chatInput, setChatInput] = useState('');
             const [chatMessages, setChatMessages] = useState(CHAT_MESSAGES);
+            const [workerStep, setWorkerStep] = useState(1);
+            const [requestStep, setRequestStep] = useState(1);
             const [bookingStatus, setBookingStatus] = useState('active');
+
+            const [workerForm, setWorkerForm] = useState({
+                name: '',
+                father: '',
+                dob: '',
+                gender: 'Male',
+                cnic: '',
+                phone: '',
+                address: '',
+                permanentAddress: '',
+                city: 'Lahore',
+                profession: 'House Cleaner',
+                experience: '2–5 years',
+                skills: [],
+                availability: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+                serviceArea: '10 km',
+                expectedPrice: 2000,
+                bio: '',
+            });
+
+            const [requestData, setRequestData] = useState({
+                category: 'House Cleaner',
+                serviceType: 'One-time',
+                requirements: 'Deep cleaning',
+                date: '10 September 2026',
+                time: '10:00 AM',
+                endTime: '3:00 PM',
+                location: 'Gulberg, Lahore',
+                budget: 3000,
+                instructions: '',
+            });
 
             const toggleTheme = () => {
                 const next = theme === 'light' ? 'dark' : 'light';
@@ -1535,7 +1509,6 @@ Here's the complete working HTML file:
 
             const handleOtpVerify = () => {
                 if (otp.length === 6) {
-                    setLoggedIn(true);
                     setOtpScreen(false);
                     goTo('choose-account');
                 } else {
@@ -1544,7 +1517,6 @@ Here's the complete working HTML file:
             };
 
             const chooseAccount = (type) => {
-                setUserType(type);
                 if (type === 'customer') {
                     goTo('customer-home');
                     setActiveTab('home');
@@ -1552,26 +1524,6 @@ Here's the complete working HTML file:
                     goTo('worker-register');
                 }
             };
-
-            const [workerStep, setWorkerStep] = useState(1);
-            const [workerForm, setWorkerForm] = useState({
-                name: '',
-                father: '',
-                dob: '',
-                gender: 'Male',
-                cnic: '',
-                phone: '',
-                address: '',
-                permanentAddress: '',
-                city: 'Lahore',
-                profession: 'House Cleaner',
-                experience: '2–5 years',
-                skills: [],
-                availability: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-                serviceArea: '10 km',
-                expectedPrice: 2000,
-                bio: '',
-            });
 
             const nextWorkerStep = () => {
                 if (workerStep < 6) setWorkerStep(workerStep + 1);
@@ -1584,19 +1536,6 @@ Here's the complete working HTML file:
             const prevWorkerStep = () => {
                 if (workerStep > 1) setWorkerStep(workerStep - 1);
             };
-
-            const [requestStep, setRequestStep] = useState(1);
-            const [requestData, setRequestData] = useState({
-                category: 'House Cleaner',
-                serviceType: 'One-time',
-                requirements: 'Deep cleaning',
-                date: '10 September 2026',
-                time: '10:00 AM',
-                endTime: '3:00 PM',
-                location: 'Gulberg, Lahore',
-                budget: 3000,
-                instructions: '',
-            });
 
             const nextRequestStep = () => {
                 if (requestStep < 4) setRequestStep(requestStep + 1);
@@ -1617,12 +1556,8 @@ Here's the complete working HTML file:
 
             const confirmHire = () => {
                 setShowModal(false);
-                setBookingConfirmed(true);
                 showToast('Booking confirmed! 🎉');
-                setTimeout(() => {
-                    setBookingConfirmed(false);
-                    goTo('customer-bookings');
-                }, 2000);
+                setTimeout(() => goTo('customer-bookings'), 2000);
             };
 
             const sendChat = () => {
@@ -1656,9 +1591,7 @@ Here's the complete working HTML file:
             const confirmAcceptOffer = () => {
                 setShowModal(false);
                 showToast(`Hired ${selectedOffer.name}! Booking confirmed.`);
-                setTimeout(() => {
-                    goTo('customer-bookings');
-                }, 1500);
+                setTimeout(() => goTo('customer-bookings'), 1500);
             };
 
             const acceptRequest = (req) => {
@@ -1674,28 +1607,17 @@ Here's the complete working HTML file:
                 showToast('Job completed! Payment received.');
             };
 
+            // ---- SPLASH ----
             const SplashScreen = () => {
                 useEffect(() => {
-                    const t = setTimeout(() => {
-                        goTo('onboarding');
-                    }, 2000);
+                    const t = setTimeout(() => goTo('onboarding'), 2000);
                     return () => clearTimeout(t);
                 }, []);
                 return (
-                    <div className="screen-container active flex flex-col items-center justify-center" style={{
-                        paddingBottom: 40
-                    }}>
-                        <div style={{
-                            width: 120,
-                            height: 120,
-                            borderRadius: 32,
-                            background: 'var(--primary)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginBottom: 24,
-                            boxShadow: '0 16px 48px rgba(13,27,62,0.25)'
-                        }}>
+                    <div className="screen-container active flex flex-col items-center justify-center" style={{ paddingBottom: 40 }}>
+                        <div style={{ width: 120, height: 120, borderRadius: 32, background: 'var(--primary)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24,
+                                boxShadow: '0 16px 48px rgba(13,27,62,0.25)' }}>
                             <span style={{ color: '#fff', fontSize: 48, fontWeight: 800, letterSpacing: -1 }}>RS</span>
                         </div>
                         <h1 style={{ fontSize: 28, fontWeight: 800, color: 'var(--primary)', letterSpacing: -0.5 }}>
@@ -1705,54 +1627,36 @@ Here's the complete working HTML file:
                             Find. Verify. Hire.
                         </p>
                         <div style={{ marginTop: 32 }}>
-                            <div style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: '50%',
-                                border: '3px solid var(--accent)',
-                                borderTopColor: 'transparent',
-                                animation: 'spin 1s linear infinite'
-                            }} />
+                            <div style={{ width: 40, height: 40, borderRadius: '50%', border: '3px solid var(--accent)',
+                                    borderTopColor: 'transparent', animation: 'spin 1s linear infinite' }} />
                         </div>
-                        <style>{`
-                                @keyframes spin { to { transform: rotate(360deg); } }
-                            `}</style>
+                        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
                     </div>
                 );
             };
 
+            // ---- ONBOARDING ----
             const OnboardingScreen = () => {
                 const data = ONBOARDING_SCREENS[onboardIndex];
                 return (
-                    <div className="screen-container active flex flex-col items-center justify-center" style={{
-                        paddingBottom: 40
-                    }}>
-                        <div className="onboarding-illustration">
-                            <i className={data.icon} />
-                        </div>
+                    <div className="screen-container active flex flex-col items-center justify-center" style={{ paddingBottom: 40 }}>
+                        <div className="onboarding-illustration"><i className={data.icon} /></div>
                         <h2 style={{ fontSize: 24, fontWeight: 700, textAlign: 'center' }}>{data.title}</h2>
-                        <p style={{
-                            color: 'var(--text-secondary)',
-                            fontSize: 15,
-                            textAlign: 'center',
-                            maxWidth: 300,
-                            marginTop: 8
-                        }}>
-                            {data.desc}
-                        </p>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: 15, textAlign: 'center', maxWidth: 300,
+                                marginTop: 8 }}>{data.desc}</p>
                         <div className="onboarding-dots">
                             {ONBOARDING_SCREENS.map((_, i) => (
                                 <div key={i} className={`dot ${i === onboardIndex ? 'active' : ''}`} />
                             ))}
                         </div>
-                        <button className="btn btn-accent" style={{ marginTop: 32, maxWidth: 200 }}
-                        onClick={nextOnboard}>
+                        <button className="btn btn-accent" style={{ marginTop: 32, maxWidth: 200 }} onClick={nextOnboard}>
                             {onboardIndex === ONBOARDING_SCREENS.length - 1 ? 'Get Started' : 'Next'}
                         </button>
                     </div>
                 );
             };
 
+            // ---- LOGIN ----
             const LoginScreen = () => {
                 if (otpScreen) {
                     return (
@@ -1766,14 +1670,9 @@ Here's the complete working HTML file:
                                 We sent a 6-digit code to <strong>{phone}</strong>
                             </p>
                             <div className="input-group" style={{ marginTop: 24 }}>
-                                <input
-                                type="text"
-                                placeholder="Enter 6-digit OTP"
-                                value={otp}
-                                onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                                maxLength={6}
-                                style={{ textAlign: 'center', fontSize: 20, letterSpacing: 6 }}
-                                />
+                                <input type="text" placeholder="Enter 6-digit OTP" value={otp}
+                                onChange={e => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} maxLength={6}
+                                style={{ textAlign: 'center', fontSize: 20, letterSpacing: 6 }} />
                             </div>
                             <button className="btn btn-accent" style={{ marginTop: 20 }} onClick={handleOtpVerify}>
                                 Verify
@@ -1785,25 +1684,17 @@ Here's the complete working HTML file:
                         </div>
                     );
                 }
-
                 return (
                     <div className="screen-container active flex flex-col" style={{ paddingTop: 60 }}>
                         <h2 style={{ fontSize: 26, fontWeight: 800 }}>Welcome Back</h2>
-                        <p style={{ color: 'var(--text-secondary)', fontSize: 15, marginTop: 4 }}>
-                            Sign in to continue
-                        </p>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: 15, marginTop: 4 }}>Sign in to continue</p>
                         <div style={{ marginTop: 32 }}>
                             <div className="input-group">
                                 <label>Mobile Number</label>
                                 <div className="input-icon">
                                     <i className="fa-solid fa-phone" />
-                                    <input
-                                    type="tel"
-                                    placeholder="03XX-XXXXXXX"
-                                    value={phone}
-                                    onChange={e => setPhone(e.target.value.replace(/\D/g, ''))}
-                                    maxLength={11}
-                                    />
+                                    <input type="tel" placeholder="03XX-XXXXXXX" value={phone}
+                                    onChange={e => setPhone(e.target.value.replace(/\D/g, ''))} maxLength={11} />
                                 </div>
                             </div>
                             <button className="btn btn-primary" style={{ marginTop: 20 }} onClick={handleLogin}>
@@ -1825,21 +1716,18 @@ Here's the complete working HTML file:
                 );
             };
 
+            // ---- CHOOSE ACCOUNT ----
             const ChooseAccountScreen = () => {
                 return (
                     <div className="screen-container active flex flex-col" style={{ paddingTop: 60 }}>
-                        <h2 style={{ fontSize: 22, fontWeight: 700, textAlign: 'center' }}>
-                            What do you want to do?
-                        </h2>
+                        <h2 style={{ fontSize: 22, fontWeight: 700, textAlign: 'center' }}>What do you want to do?</h2>
                         <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 16 }}>
-                            <button className="btn btn-primary" style={{ padding: 24, justifyContent: 'flex-start',
-                                gap: 16 }}
+                            <button className="btn btn-primary" style={{ padding: 24, justifyContent: 'flex-start', gap: 16 }}
                             onClick={() => chooseAccount('customer')}>
                                 <span style={{ fontSize: 28 }}>🏠</span>
                                 <div style={{ textAlign: 'left' }}>
                                     <div style={{ fontWeight: 700, fontSize: 16 }}>Hire a Professional</div>
-                                    <div style={{ fontWeight: 400, fontSize: 13, opacity: 0.7 }}>Find trusted
-                                        workers</div>
+                                    <div style={{ fontWeight: 400, fontSize: 13, opacity: 0.7 }}>Find trusted workers</div>
                                 </div>
                             </button>
                             <button className="btn btn-outline-accent" style={{ padding: 24, justifyContent: 'flex-start',
@@ -1848,8 +1736,7 @@ Here's the complete working HTML file:
                                 <span style={{ fontSize: 28 }}>💼</span>
                                 <div style={{ textAlign: 'left' }}>
                                     <div style={{ fontWeight: 700, fontSize: 16 }}>Work as a Professional</div>
-                                    <div style={{ fontWeight: 400, fontSize: 13, opacity: 0.7 }}>Offer your services
-                                    </div>
+                                    <div style={{ fontWeight: 400, fontSize: 13, opacity: 0.7 }}>Offer your services</div>
                                 </div>
                             </button>
                         </div>
@@ -1857,101 +1744,8 @@ Here's the complete working HTML file:
                 );
             };
 
-            const CustomerHome = () => {
-                const [searchQuery, setSearchQuery] = useState('');
-                return (
-                    <div className="screen-container active">
-                        <div className="app-header">
-                            <div className="brand">
-                                <span className="logo">RENT A <span>SERVANT</span></span>
-                            </div>
-                            <div className="header-actions">
-                                <button onClick={() => goTo('customer-notifications')}><i
-                                    className="fa-regular fa-bell" /></button>
-                                <button onClick={toggleTheme}>
-                                    <i className={theme === 'light' ? 'fa-regular fa-moon' : 'fa-regular fa-sun'} />
-                                </button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>Good Morning 👋</p>
-                            <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 2 }}>What service do you need?</h2>
-
-                            <div className="input-group" style={{ marginTop: 14 }}>
-                                <div className="input-icon">
-                                    <i className="fa-solid fa-search" />
-                                    <input
-                                    type="text"
-                                    placeholder="Search for a service…"
-                                    value={searchQuery}
-                                    onChange={e => setSearchQuery(e.target.value)}
-                                    onFocus={() => goTo('search')}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div style={{ marginTop: 20 }}>
-                            <div className="section-title">
-                                <span>Popular Services</span>
-                            </div>
-                            <div className="scroll-horizontal no-scrollbar">
-                                {POPULAR_SERVICES.map((s, i) => (
-                                    <div key={i} className="card-service" style={{ minWidth: 120, flexDirection: 'column',
-                                        textAlign: 'center', padding: '16px 12px' }}
-                                    onClick={() => { goTo('create-request');
-                                        setRequestData(d => ({ ...d, category: s.label })); }}>
-                                        <div className="icon-wrap" style={{ width: 44, height: 44, fontSize: 18 }}>
-                                            <i className={s.icon} />
-                                        </div>
-                                        <span style={{ fontSize: 12, fontWeight: 500 }}>{s.label}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div style={{ marginTop: 12 }}>
-                            <div className="section-title">
-                                <span>Nearby Professionals</span>
-                                <span className="see-all" onClick={() => goTo('search')}>See All</span>
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                                {WORKERS.slice(0, 3).map(w => (
-                                    <WorkerCard key={w.id} worker={w} onHire={handleHire} onView={() => {
-                                        setSelectedWorker(w);
-                                        goTo('worker-profile');
-                                    }} />
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="card" style={{ marginTop: 16, background: 'var(--primary)', color: '#fff' }}>
-                            <h4 style={{ fontSize: 16, fontWeight: 700 }}>Why Rent a Servant?</h4>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 10 }}>
-                                {['Verified Professionals', 'Police Clearance', 'Ratings & Reviews', 'Easy Hiring',
-                                    'Secure Communication'
-                                ].map(item => (
-                                    <div key={item} style={{ fontSize: 13, display: 'flex', alignItems: 'center',
-                                        gap: 6 }}>
-                                        <i className="fa-solid fa-check-circle" style={{ color: 'var(--accent)' }} />
-                                        {item}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div style={{ height: 20 }} />
-
-                        <BottomNavCustomer active={activeTab} setActive={(t) => { setActiveTab(t);
-                                goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
-                                    t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
-                                    'customer-profile') }} />
-                    </div>
-                );
-            };
-
-            const WorkerCard = ({ worker, onHire, onView, compact }) => {
+            // ---- WORKER CARD ----
+            const WorkerCard = ({ worker, onHire, onView }) => {
                 return (
                     <div className="worker-card" onClick={onView}>
                         <div className="top">
@@ -1960,13 +1754,10 @@ Here's the complete working HTML file:
                                 <div className="name">{worker.name}</div>
                                 <div className="profession">{worker.profession}</div>
                                 <div className="meta">
-                                    <span><i className="fa-solid fa-star" style={{ color: '#f59e0b' }} /> {worker
-                                        .rating}</span>
+                                    <span><i className="fa-solid fa-star" style={{ color: '#f59e0b' }} /> {worker.rating}</span>
                                     <span><i className="fa-regular fa-clock" /> {worker.experience}</span>
-                                    {worker.verified && <span><i className="fa-solid fa-shield-check"
-                                        style={{ color: '#0a7a3a' }} /> Verified</span>}
-                                    {worker.police && <span><i className="fa-solid fa-badge-check"
-                                        style={{ color: '#1a56db' }} /> Police ✓</span>}
+                                    {worker.verified && <span><i className="fa-solid fa-shield-check" style={{ color: '#0a7a3a' }} /> Verified</span>}
+                                    {worker.police && <span><i className="fa-solid fa-badge-check" style={{ color: '#1a56db' }} /> Police ✓</span>}
                                 </div>
                             </div>
                         </div>
@@ -1983,6 +1774,7 @@ Here's the complete working HTML file:
                 );
             };
 
+            // ---- BOTTOM NAV CUSTOMER ----
             const BottomNavCustomer = ({ active, setActive }) => {
                 const items = [
                     { key: 'home', icon: 'fa-solid fa-house', label: 'Home' },
@@ -2005,6 +1797,107 @@ Here's the complete working HTML file:
                 );
             };
 
+            // ---- BOTTOM NAV WORKER ----
+            const BottomNavWorker = ({ active, setActive }) => {
+                const items = [
+                    { key: 'home', icon: 'fa-solid fa-house', label: 'Home' },
+                    { key: 'requests', icon: 'fa-regular fa-bell', label: 'Requests' },
+                    { key: 'jobs', icon: 'fa-regular fa-calendar-check', label: 'Jobs' },
+                    { key: 'earnings', icon: 'fa-regular fa-wallet', label: 'Earnings' },
+                    { key: 'profile', icon: 'fa-regular fa-user', label: 'Profile' },
+                ];
+                return (
+                    <div className="bottom-nav">
+                        {items.map(item => (
+                            <button key={item.key} className={`nav-item ${active === item.key ? 'active' : ''}`}
+                            onClick={() => setActive(item.key)}>
+                                <i className={item.icon} />
+                                <span>{item.label}</span>
+                                {item.key === 'requests' && <span className="badge">5</span>}
+                            </button>
+                        ))}
+                    </div>
+                );
+            };
+
+            // ---- CUSTOMER HOME ----
+            const CustomerHome = () => {
+                const [searchQuery, setSearchQuery] = useState('');
+                return (
+                    <div className="screen-container active">
+                        <div className="app-header">
+                            <div className="brand"><span className="logo">RENT A <span>SERVANT</span></span></div>
+                            <div className="header-actions">
+                                <button onClick={() => goTo('customer-notifications')}><i className="fa-regular fa-bell" /></button>
+                                <button onClick={toggleTheme}>
+                                    <i className={theme === 'light' ? 'fa-regular fa-moon' : 'fa-regular fa-sun'} />
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>Good Morning 👋</p>
+                            <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 2 }}>What service do you need?</h2>
+                            <div className="input-group" style={{ marginTop: 14 }}>
+                                <div className="input-icon">
+                                    <i className="fa-solid fa-search" />
+                                    <input type="text" placeholder="Search for a service…" value={searchQuery}
+                                    onChange={e => setSearchQuery(e.target.value)} onFocus={() => goTo('search')} />
+                                </div>
+                            </div>
+                        </div>
+                        <div style={{ marginTop: 20 }}>
+                            <div className="section-title"><span>Popular Services</span></div>
+                            <div className="scroll-horizontal no-scrollbar">
+                                {POPULAR_SERVICES.map((s, i) => (
+                                    <div key={i} className="card-service" style={{ minWidth: 120, flexDirection: 'column',
+                                            textAlign: 'center', padding: '16px 12px' }}
+                                    onClick={() => { goTo('create-request');
+                                            setRequestData(d => ({ ...d, category: s.label })); }}>
+                                        <div className="icon-wrap" style={{ width: 44, height: 44, fontSize: 18 }}>
+                                            <i className={s.icon} />
+                                        </div>
+                                        <span style={{ fontSize: 12, fontWeight: 500 }}>{s.label}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div style={{ marginTop: 12 }}>
+                            <div className="section-title">
+                                <span>Nearby Professionals</span>
+                                <span className="see-all" onClick={() => goTo('search')}>See All</span>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                {WORKERS.slice(0, 3).map(w => (
+                                    <WorkerCard key={w.id} worker={w} onHire={handleHire} onView={() => {
+                                        setSelectedWorker(w);
+                                        goTo('worker-profile');
+                                    }} />
+                                ))}
+                            </div>
+                        </div>
+                        <div className="card" style={{ marginTop: 16, background: 'var(--primary)', color: '#fff' }}>
+                            <h4 style={{ fontSize: 16, fontWeight: 700 }}>Why Rent a Servant?</h4>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 10 }}>
+                                {['Verified Professionals', 'Police Clearance', 'Ratings & Reviews', 'Easy Hiring',
+                                    'Secure Communication'
+                                ].map(item => (
+                                    <div key={item} style={{ fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                                        <i className="fa-solid fa-check-circle" style={{ color: 'var(--accent)' }} />
+                                        {item}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div style={{ height: 20 }} />
+                        <BottomNavCustomer active={activeTab} setActive={(t) => { setActiveTab(t);
+                                goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
+                                    t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
+                                    'customer-profile'); }} />
+                    </div>
+                );
+            };
+
+            // ---- SEARCH ----
             const SearchScreen = () => {
                 const [query, setQuery] = useState('');
                 const filtered = WORKERS.filter(w =>
@@ -2022,16 +1915,10 @@ Here's the complete working HTML file:
                         <div className="input-group">
                             <div className="input-icon">
                                 <i className="fa-solid fa-search" />
-                                <input
-                                type="text"
-                                placeholder="What service are you looking for?"
-                                value={query}
-                                onChange={e => setQuery(e.target.value)}
-                                autoFocus
-                                />
+                                <input type="text" placeholder="What service are you looking for?" value={query}
+                                onChange={e => setQuery(e.target.value)} autoFocus />
                             </div>
                         </div>
-
                         <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                             {['Nearby', '4+ Rating', 'Verified', 'Police Clearance', 'Available Now'].map(f => (
                                 <span key={f} className="chip active" style={{ background: 'var(--accent)',
@@ -2039,10 +1926,8 @@ Here's the complete working HTML file:
                             ))}
                             <span className="chip"><i className="fa-solid fa-sliders" /> Filters</span>
                         </div>
-
                         <div style={{ marginTop: 16 }}>
-                            <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>{filtered.length} professionals
-                                found</p>
+                            <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>{filtered.length} professionals found</p>
                             {filtered.map(w => (
                                 <WorkerCard key={w.id} worker={w} onHire={handleHire} onView={() => {
                                     setSelectedWorker(w);
@@ -2050,15 +1935,15 @@ Here's the complete working HTML file:
                                 }} />
                             ))}
                         </div>
-
                         <BottomNavCustomer active="search" setActive={(t) => { setActiveTab(t);
                                 goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
                                     t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
-                                    'customer-profile') }} />
+                                    'customer-profile'); }} />
                     </div>
                 );
             };
 
+            // ---- WORKER PROFILE ----
             const WorkerProfileScreen = () => {
                 const w = selectedWorker || WORKERS[0];
                 return (
@@ -2068,11 +1953,11 @@ Here's the complete working HTML file:
                             onClick={() => goTo('customer-home')}>
                                 <i className="fa-solid fa-arrow-left" /> Back
                             </button>
-                            <button className="btn btn-ghost" style={{ width: 'auto', padding: '8px 0', color: 'var(--accent)' }}>
+                            <button className="btn btn-ghost" style={{ width: 'auto', padding: '8px 0',
+                                    color: 'var(--accent)' }}>
                                 <i className="fa-regular fa-heart" /> Favorite
                             </button>
                         </div>
-
                         <div className="profile-header">
                             <div className="avatar-lg">{w.avatar}</div>
                             <div className="info">
@@ -2080,33 +1965,24 @@ Here's the complete working HTML file:
                                 <p>{w.profession}</p>
                                 <div style={{ display: 'flex', gap: 8, marginTop: 4, flexWrap: 'wrap' }}>
                                     <span className="verification-badge"><i className="fa-solid fa-shield-check" /> Verified</span>
-                                    <span className="verification-badge-police"><i className="fa-solid fa-badge-check" /> Police
-                                        Clearance</span>
+                                    <span className="verification-badge-police"><i className="fa-solid fa-badge-check" /> Police Clearance</span>
                                 </div>
                             </div>
                         </div>
-
                         <div className="card">
                             <h4 style={{ fontWeight: 600 }}>About</h4>
                             <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginTop: 4 }}>{w.bio}</p>
                         </div>
-
                         <div className="card" style={{ marginTop: 12 }}>
                             <h4 style={{ fontWeight: 600, marginBottom: 8 }}>Verification</h4>
                             <div className="verification-list">
-                                <div className="item"><i className="fa-solid fa-id-card" /> Identity Verified <span
-                                    className="status verified">✓</span></div>
-                                <div className="item"><i className="fa-solid fa-id-card" /> CNIC Verified <span
-                                    className="status verified">✓</span></div>
-                                <div className="item"><i className="fa-solid fa-badge-check" /> Police Clearance Verified <span
-                                    className="status verified">✓</span></div>
-                                <div className="item"><i className="fa-solid fa-location-dot" /> Address Verified <span
-                                    className="status verified">✓</span></div>
-                                <div className="item"><i className="fa-solid fa-briefcase" /> Experience Verified <span
-                                    className="status verified">✓</span></div>
+                                <div className="item"><i className="fa-solid fa-id-card" /> Identity Verified <span className="status verified">✓</span></div>
+                                <div className="item"><i className="fa-solid fa-id-card" /> CNIC Verified <span className="status verified">✓</span></div>
+                                <div className="item"><i className="fa-solid fa-badge-check" /> Police Clearance Verified <span className="status verified">✓</span></div>
+                                <div className="item"><i className="fa-solid fa-location-dot" /> Address Verified <span className="status verified">✓</span></div>
+                                <div className="item"><i className="fa-solid fa-briefcase" /> Experience Verified <span className="status verified">✓</span></div>
                             </div>
                         </div>
-
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginTop: 12 }}>
                             <div className="card" style={{ textAlign: 'center', padding: '14px 10px' }}>
                                 <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--accent)' }}>{w.experience}</div>
@@ -2121,7 +1997,6 @@ Here's the complete working HTML file:
                                 <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Rating</div>
                             </div>
                         </div>
-
                         <div className="card" style={{ marginTop: 12 }}>
                             <h4 style={{ fontWeight: 600, marginBottom: 6 }}>Skills</h4>
                             <div className="chip-group">
@@ -2131,13 +2006,11 @@ Here's the complete working HTML file:
                                 ))}
                             </div>
                         </div>
-
                         <div className="card" style={{ marginTop: 12 }}>
                             <h4 style={{ fontWeight: 600, marginBottom: 6 }}>Reviews</h4>
                             <div style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
                                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                                    <span className="stars">★★★★★</span>
-                                    <span>4.9 (127 reviews)</span>
+                                    <span className="stars">★★★★★</span><span>4.9 (127 reviews)</span>
                                 </div>
                                 <p style={{ marginTop: 6, fontSize: 13, color: 'var(--text-muted)' }}>
                                     "Very professional, punctual and good at cleaning." — Ayesha
@@ -2147,56 +2020,45 @@ Here's the complete working HTML file:
                                 </p>
                             </div>
                         </div>
-
                         <div style={{ display: 'flex', gap: 10, marginTop: 16, paddingBottom: 20 }}>
-                            <button className="btn btn-outline" style={{ flex: 1 }}
-                            onClick={() => goTo('chat')}>
+                            <button className="btn btn-outline" style={{ flex: 1 }} onClick={() => goTo('chat')}>
                                 <i className="fa-regular fa-comment" /> Chat
                             </button>
                             <button className="btn btn-accent" style={{ flex: 1 }} onClick={() => handleHire(w)}>
                                 <i className="fa-solid fa-handshake" /> Hire
                             </button>
                         </div>
-
                         <BottomNavCustomer active="home" setActive={(t) => { setActiveTab(t);
                                 goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
                                     t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
-                                    'customer-profile') }} />
+                                    'customer-profile'); }} />
                     </div>
                 );
             };
 
+            // ---- CREATE REQUEST ----
             const CreateRequestScreen = () => {
                 const steps = ['Service', 'Details', 'Location', 'Confirm'];
                 const stepTitles = ['Choose Service', 'Requirements', 'Location & Time', 'Review & Post'];
-
                 return (
                     <div className="screen-container active">
                         <div className="app-header">
                             <button className="btn btn-ghost" style={{ width: 'auto', padding: '8px 0' }}
-                            onClick={() => {
-                                if (requestStep > 1) prevRequestStep();
-                                else goTo('customer-home');
-                            }}>
+                            onClick={() => { if (requestStep > 1) prevRequestStep();
+                                else goTo('customer-home'); }}>
                                 <i className="fa-solid fa-arrow-left" /> Back
                             </button>
                             <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-secondary)' }}>
                                 Step {requestStep}/{steps.length}
                             </span>
                         </div>
-
                         <div style={{ display: 'flex', gap: 6, marginBottom: 16 }}>
-                            {steps.map((s, i) => (
-                                <div key={i} style={{
-                                    flex: 1,
-                                    height: 4,
-                                    borderRadius: 4,
-                                    background: i < requestStep ? 'var(--accent)' : 'var(--border)',
-                                    transition: 'background 0.3s'
-                                }} />
+                            {steps.map((_, i) => (
+                                <div key={i} style={{ flex: 1, height: 4, borderRadius: 4,
+                                        background: i < requestStep ? 'var(--accent)' : 'var(--border)',
+                                        transition: 'background 0.3s' }} />
                             ))}
                         </div>
-
                         <h3 style={{ fontSize: 18, fontWeight: 700 }}>{stepTitles[requestStep - 1]}</h3>
 
                         {requestStep === 1 && (
@@ -2205,9 +2067,7 @@ Here's the complete working HTML file:
                                     <label>Select Service Category</label>
                                     <select value={requestData.category} onChange={e => setRequestData(d => ({ ...d,
                                             category: e.target.value }))}>
-                                        {POPULAR_SERVICES.map(s => (
-                                            <option key={s.label} value={s.label}>{s.label}</option>
-                                        ))}
+                                        {POPULAR_SERVICES.map(s => <option key={s.label} value={s.label}>{s.label}</option>)}
                                         <option value="Other">Other Service</option>
                                     </select>
                                 </div>
@@ -2230,19 +2090,14 @@ Here's the complete working HTML file:
                             <div style={{ marginTop: 16 }}>
                                 <div className="input-group">
                                     <label>Requirements</label>
-                                    <textarea
-                                    value={requestData.requirements}
+                                    <textarea value={requestData.requirements}
                                     onChange={e => setRequestData(d => ({ ...d, requirements: e.target.value }))}
-                                    placeholder="Describe your requirements…"
-                                    />
+                                    placeholder="Describe your requirements…" />
                                 </div>
                                 <div className="chip-group" style={{ marginTop: 10 }}>
                                     {['Deep Cleaning', 'General Cleaning', 'Laundry', 'Kitchen', 'Bathrooms'].map(t => (
-                                        <span key={t} className="chip active" style={{
-                                            background: 'var(--accent)',
-                                            color: '#0d1b3e',
-                                            cursor: 'pointer'
-                                        }}
+                                        <span key={t} className="chip active" style={{ background: 'var(--accent)',
+                                                color: '#0d1b3e', cursor: 'pointer' }}
                                         onClick={() => {
                                             const val = requestData.requirements.includes(t) ?
                                                 requestData.requirements.replace(t, '').trim() :
@@ -2263,30 +2118,30 @@ Here's the complete working HTML file:
                             <div style={{ marginTop: 16 }}>
                                 <div className="input-group">
                                     <label>Date</label>
-                                    <input type="text" value={requestData.date} onChange={e => setRequestData(d => ({ ...d,
-                                            date: e.target.value }))} />
+                                    <input type="text" value={requestData.date}
+                                    onChange={e => setRequestData(d => ({ ...d, date: e.target.value }))} />
                                 </div>
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12 }}>
                                     <div className="input-group">
                                         <label>Start Time</label>
-                                        <input type="text" value={requestData.time} onChange={e => setRequestData(d => ({ ...d,
-                                                time: e.target.value }))} />
+                                        <input type="text" value={requestData.time}
+                                        onChange={e => setRequestData(d => ({ ...d, time: e.target.value }))} />
                                     </div>
                                     <div className="input-group">
                                         <label>End Time</label>
-                                        <input type="text" value={requestData.endTime} onChange={e => setRequestData(d => ({ ...d,
-                                                endTime: e.target.value }))} />
+                                        <input type="text" value={requestData.endTime}
+                                        onChange={e => setRequestData(d => ({ ...d, endTime: e.target.value }))} />
                                     </div>
                                 </div>
                                 <div className="input-group" style={{ marginTop: 12 }}>
                                     <label>Location</label>
-                                    <input type="text" value={requestData.location} onChange={e => setRequestData(d => ({ ...d,
-                                            location: e.target.value }))} />
+                                    <input type="text" value={requestData.location}
+                                    onChange={e => setRequestData(d => ({ ...d, location: e.target.value }))} />
                                 </div>
                                 <div className="input-group" style={{ marginTop: 12 }}>
                                     <label>Budget (PKR)</label>
-                                    <input type="number" value={requestData.budget} onChange={e => setRequestData(d => ({ ...d,
-                                            budget: parseInt(e.target.value) || 0 }))} />
+                                    <input type="number" value={requestData.budget}
+                                    onChange={e => setRequestData(d => ({ ...d, budget: parseInt(e.target.value) || 0 }))} />
                                 </div>
                                 <button className="btn btn-accent" style={{ marginTop: 20 }} onClick={nextRequestStep}>
                                     Next
@@ -2304,10 +2159,12 @@ Here's the complete working HTML file:
                                         <p style={{ fontSize: 14 }}>{requestData.requirements}</p>
                                     </div>
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 10 }}>
-                                        <div><p style={{ fontSize: 12, color: 'var(--text-muted)' }}>Date</p><p style={{
-                                            fontSize: 14, fontWeight: 500 }}>{requestData.date}</p></div>
-                                        <div><p style={{ fontSize: 12, color: 'var(--text-muted)' }}>Time</p><p style={{
-                                            fontSize: 14, fontWeight: 500 }}>{requestData.time} – {requestData.endTime}</p>
+                                        <div><p style={{ fontSize: 12, color: 'var(--text-muted)' }}>Date</p>
+                                            <p style={{ fontSize: 14, fontWeight: 500 }}>{requestData.date}</p>
+                                        </div>
+                                        <div><p style={{ fontSize: 12, color: 'var(--text-muted)' }}>Time</p>
+                                            <p style={{ fontSize: 14, fontWeight: 500 }}>{requestData.time} – {requestData
+                                                    .endTime}</p>
                                         </div>
                                     </div>
                                     <div style={{ marginTop: 8 }}>
@@ -2325,15 +2182,15 @@ Here's the complete working HTML file:
                                 </button>
                             </div>
                         )}
-
                         <BottomNavCustomer active="home" setActive={(t) => { setActiveTab(t);
                                 goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
                                     t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
-                                    'customer-profile') }} />
+                                    'customer-profile'); }} />
                     </div>
                 );
             };
 
+            // ---- OFFERS ----
             const OffersScreen = () => {
                 return (
                     <div className="screen-container active">
@@ -2344,47 +2201,41 @@ Here's the complete working HTML file:
                             </button>
                             <span style={{ fontSize: 14, fontWeight: 600 }}>Offers</span>
                         </div>
-
                         <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
                             <strong>{OFFERS.length}</strong> Professionals Responded
                         </p>
-
                         <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 12 }}>
                             {OFFERS.map(o => (
                                 <div key={o.id} className="card" style={{ padding: '16px' }}>
                                     <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-                                        <div className="avatar" style={{ width: 48, height: 48, fontSize: 18 }}>{o
-                                            .avatar}</div>
+                                        <div className="avatar" style={{ width: 48, height: 48, fontSize: 18 }}>{o.avatar}</div>
                                         <div style={{ flex: 1 }}>
                                             <div style={{ fontWeight: 600 }}>{o.name}</div>
                                             <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{o.profession}</div>
                                             <div style={{ display: 'flex', gap: 12, fontSize: 12, color: 'var(--text-muted)',
                                                     marginTop: 2 }}>
-                                                <span>⭐ {o.rating}</span>
-                                                <span>{o.experience}</span>
+                                                <span>⭐ {o.rating}</span><span>{o.experience}</span>
                                             </div>
                                         </div>
                                         <div style={{ textAlign: 'right' }}>
                                             <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--accent)' }}>PKR {o
                                                     .price.toLocaleString()}</div>
                                             <button className="btn btn-accent btn-sm" style={{ marginTop: 4 }}
-                                            onClick={() => acceptOffer(o)}>
-                                                Accept
-                                            </button>
+                                            onClick={() => acceptOffer(o)}>Accept</button>
                                         </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
-
                         <BottomNavCustomer active="home" setActive={(t) => { setActiveTab(t);
                                 goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
                                     t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
-                                    'customer-profile') }} />
+                                    'customer-profile'); }} />
                     </div>
                 );
             };
 
+            // ---- CUSTOMER BOOKINGS ----
             const CustomerBookings = () => {
                 const [tab, setTab] = useState('upcoming');
                 const filtered = BOOKINGS.filter(b => {
@@ -2397,21 +2248,15 @@ Here's the complete working HTML file:
                         <div className="app-header">
                             <span className="logo" style={{ fontSize: 18, fontWeight: 800 }}>My Bookings</span>
                         </div>
-
                         <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
                             {['upcoming', 'completed', 'cancelled'].map(t => (
-                                <button key={t} className={`btn ${tab === t ? 'btn-accent' : 'btn-outline'}`} style={{
-                                    flex: 1,
-                                    padding: '8px 0',
-                                    minHeight: 36,
-                                    fontSize: 13
-                                }}
+                                <button key={t} className={`btn ${tab === t ? 'btn-accent' : 'btn-outline'}`}
+                                style={{ flex: 1, padding: '8px 0', minHeight: 36, fontSize: 13 }}
                                 onClick={() => setTab(t)}>
                                     {t.charAt(0).toUpperCase() + t.slice(1)}
                                 </button>
                             ))}
                         </div>
-
                         {filtered.length === 0 ? (
                             <div className="card" style={{ textAlign: 'center', padding: 40 }}>
                                 <i className="fa-regular fa-calendar" style={{ fontSize: 40, color: 'var(--text-muted)' }} />
@@ -2443,15 +2288,15 @@ Here's the complete working HTML file:
                                 </div>
                             ))
                         )}
-
                         <BottomNavCustomer active="bookings" setActive={(t) => { setActiveTab(t);
                                 goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
                                     t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
-                                    'customer-profile') }} />
+                                    'customer-profile'); }} />
                     </div>
                 );
             };
 
+            // ---- CHAT ----
             const ChatScreen = () => {
                 return (
                     <div className="screen-container active" style={{ paddingBottom: 100 }}>
@@ -2466,64 +2311,42 @@ Here's the complete working HTML file:
                                     <div style={{ fontSize: 11, color: '#0a7a3a' }}>● Online</div>
                                 </div>
                             </div>
-                            <button className="btn btn-ghost" style={{ width: 'auto', padding: '8px 0', color: 'var(--accent)' }}>
+                            <button className="btn btn-ghost" style={{ width: 'auto', padding: '8px 0',
+                                    color: 'var(--accent)' }}>
                                 <i className="fa-solid fa-phone" />
                             </button>
                         </div>
-
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 4, paddingBottom: 12 }}>
                             {chatMessages.map(m => (
                                 <div key={m.id} className={`chat-bubble ${m.sent ? 'sent' : 'received'}`}
                                 style={{ alignSelf: m.sent ? 'flex-end' : 'flex-start' }}>
-                                    {m.text}
-                                    <span className="time">{m.time}</span>
+                                    {m.text}<span className="time">{m.time}</span>
                                 </div>
                             ))}
                         </div>
-
-                        <div style={{
-                            position: 'absolute',
-                            bottom: 70,
-                            left: 20,
-                            right: 20,
-                            display: 'flex',
-                            gap: 10,
-                            background: 'var(--bg)',
-                            padding: '8px 0',
-                            transition: 'background var(--transition)'
-                        }}>
-                            <input
-                            type="text"
-                            placeholder="Type a message…"
-                            value={chatInput}
-                            onChange={e => setChatInput(e.target.value)}
-                            onKeyPress={e => e.key === 'Enter' && sendChat()}
-                            style={{
-                                flex: 1,
-                                padding: '12px 16px',
-                                borderRadius: 'var(--radius-sm)',
-                                border: '2px solid var(--border)',
-                                background: 'var(--bg-input)',
-                                color: 'var(--text)',
-                                fontFamily: 'Inter, sans-serif',
-                                fontSize: 14,
-                                outline: 'none'
-                            }}
-                            />
-                            <button className="btn btn-accent" style={{ width: 'auto', padding: '12px 20px', minHeight: 48 }}
+                        <div style={{ position: 'absolute', bottom: 70, left: 20, right: 20, display: 'flex', gap: 10,
+                                background: 'var(--bg)', padding: '8px 0', transition: 'background var(--transition)' }}>
+                            <input type="text" placeholder="Type a message…" value={chatInput}
+                            onChange={e => setChatInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && sendChat()}
+                            style={{ flex: 1, padding: '12px 16px', borderRadius: 'var(--radius-sm)',
+                                    border: '2px solid var(--border)', background: 'var(--bg-input)',
+                                    color: 'var(--text)', fontFamily: 'Inter, sans-serif', fontSize: 14,
+                                    outline: 'none' }} />
+                            <button className="btn btn-accent" style={{ width: 'auto', padding: '12px 20px',
+                                    minHeight: 48 }}
                             onClick={sendChat}>
                                 <i className="fa-solid fa-paper-plane" />
                             </button>
                         </div>
-
                         <BottomNavCustomer active="messages" setActive={(t) => { setActiveTab(t);
                                 goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
                                     t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
-                                    'customer-profile') }} />
+                                    'customer-profile'); }} />
                     </div>
                 );
             };
 
+            // ---- CUSTOMER PROFILE ----
             const CustomerProfile = () => {
                 return (
                     <div className="screen-container active">
@@ -2534,7 +2357,6 @@ Here's the complete working HTML file:
                                 <i className="fa-solid fa-gear" />
                             </button>
                         </div>
-
                         <div className="profile-header">
                             <div className="avatar-lg" style={{ fontSize: 28 }}>👤</div>
                             <div className="info">
@@ -2545,7 +2367,6 @@ Here's the complete working HTML file:
                                 <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>Gulberg, Lahore</p>
                             </div>
                         </div>
-
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginTop: 4 }}>
                             <div className="card" style={{ textAlign: 'center', padding: '14px 8px' }}>
                                 <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--accent)' }}>12</div>
@@ -2560,7 +2381,6 @@ Here's the complete working HTML file:
                                 <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Favorites</div>
                             </div>
                         </div>
-
                         <div className="card" style={{ marginTop: 12 }}>
                             <h4 style={{ fontWeight: 600, marginBottom: 8 }}>Quick Actions</h4>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -2570,18 +2390,13 @@ Here's the complete working HTML file:
                                     { icon: 'fa-regular fa-credit-card', label: 'Payments' },
                                     { icon: 'fa-regular fa-address-book', label: 'Emergency Contacts' },
                                 ].map(item => (
-                                    <button key={item.label} className="btn btn-outline" style={{
-                                        padding: '10px',
-                                        fontSize: 13,
-                                        minHeight: 44,
-                                        justifyContent: 'center'
-                                    }}>
+                                    <button key={item.label} className="btn btn-outline" style={{ padding: '10px',
+                                            fontSize: 13, minHeight: 44, justifyContent: 'center' }}>
                                         <i className={item.icon} /> {item.label}
                                     </button>
                                 ))}
                             </div>
                         </div>
-
                         <div className="card" style={{ marginTop: 12 }}>
                             <h4 style={{ fontWeight: 600, marginBottom: 8 }}>Safety Center</h4>
                             <button className="btn btn-outline" style={{ justifyContent: 'center', padding: '10px' }}
@@ -2589,19 +2404,19 @@ Here's the complete working HTML file:
                                 <i className="fa-solid fa-shield" /> Safety & Support
                             </button>
                         </div>
-
-                        <button className="btn btn-outline" style={{ marginTop: 12, color: '#ef4444', borderColor: '#ef4444' }}>
+                        <button className="btn btn-outline" style={{ marginTop: 12, color: '#ef4444',
+                                borderColor: '#ef4444' }}>
                             Logout
                         </button>
-
                         <BottomNavCustomer active="profile" setActive={(t) => { setActiveTab(t);
                                 goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
                                     t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
-                                    'customer-profile') }} />
+                                    'customer-profile'); }} />
                     </div>
                 );
             };
 
+            // ---- SAFETY ----
             const SafetyScreen = () => {
                 return (
                     <div className="screen-container active">
@@ -2612,34 +2427,20 @@ Here's the complete working HTML file:
                             </button>
                             <span style={{ fontWeight: 600 }}>Safety Center</span>
                         </div>
-
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                            <button className="card" style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 14,
-                                border: '2px solid #ef4444',
-                                background: 'rgba(239,68,68,0.06)',
-                                cursor: 'pointer'
-                            }}
+                            <button className="card" style={{ display: 'flex', alignItems: 'center', gap: 14,
+                                    border: '2px solid #ef4444', background: 'rgba(239,68,68,0.06)', cursor: 'pointer' }}
                             onClick={() => showToast('SOS triggered! Emergency contacts notified.')}>
-                                <div style={{
-                                    width: 48,
-                                    height: 48,
-                                    borderRadius: '50%',
-                                    background: '#ef4444',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: '#fff',
-                                    fontSize: 22
-                                }}><i className="fa-solid fa-phone" /></div>
+                                <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#ef4444',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff',
+                                        fontSize: 22 }}>
+                                    <i className="fa-solid fa-phone" />
+                                </div>
                                 <div style={{ textAlign: 'left' }}>
                                     <div style={{ fontWeight: 700, color: '#ef4444' }}>SOS Emergency</div>
                                     <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>Long press 3s to activate</div>
                                 </div>
                             </button>
-
                             {[
                                 { icon: 'fa-regular fa-flag', label: 'Report User', desc: 'Report misconduct or unsafe behavior' },
                                 { icon: 'fa-regular fa-address-card', label: 'Emergency Contact', desc: 'Update your emergency contacts' },
@@ -2650,17 +2451,11 @@ Here's the complete working HTML file:
                                 <div key={item.label} className="card" style={{ display: 'flex', alignItems: 'center',
                                         gap: 14, cursor: 'pointer' }}
                                 onClick={() => showToast(`Opening ${item.label}...`)}>
-                                    <div style={{
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: '50%',
-                                        background: 'var(--bg-input)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        fontSize: 18,
-                                        color: 'var(--text-secondary)'
-                                    }}><i className={item.icon} /></div>
+                                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--bg-input)',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            fontSize: 18, color: 'var(--text-secondary)' }}>
+                                        <i className={item.icon} />
+                                    </div>
                                     <div style={{ flex: 1 }}>
                                         <div style={{ fontWeight: 600, fontSize: 14 }}>{item.label}</div>
                                         <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{item.desc}</div>
@@ -2673,6 +2468,7 @@ Here's the complete working HTML file:
                 );
             };
 
+            // ---- NOTIFICATIONS ----
             const NotificationsScreen = () => {
                 const notifs = [
                     { icon: 'fa-regular fa-handshake', text: 'Maria Khan made an offer on your request', time: '2 min ago' },
@@ -2692,17 +2488,11 @@ Here's the complete working HTML file:
                         {notifs.map((n, i) => (
                             <div key={i} className="card" style={{ marginBottom: 8, display: 'flex', gap: 12,
                                     alignItems: 'center' }}>
-                                <div style={{
-                                    width: 40,
-                                    height: 40,
-                                    borderRadius: '50%',
-                                    background: 'var(--accent-glow)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'var(--accent)',
-                                    fontSize: 16
-                                }}><i className={n.icon} /></div>
+                                <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--accent-glow)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        color: 'var(--accent)', fontSize: 16 }}>
+                                    <i className={n.icon} />
+                                </div>
                                 <div style={{ flex: 1 }}>
                                     <div style={{ fontSize: 14 }}>{n.text}</div>
                                     <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{n.time}</div>
@@ -2713,6 +2503,7 @@ Here's the complete working HTML file:
                 );
             };
 
+            // ---- SETTINGS ----
             const SettingsScreen = () => {
                 return (
                     <div className="screen-container active">
@@ -2723,7 +2514,6 @@ Here's the complete working HTML file:
                             </button>
                             <span style={{ fontWeight: 600 }}>Settings</span>
                         </div>
-
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                             {[
                                 { icon: 'fa-regular fa-user', label: 'Account' },
@@ -2736,13 +2526,8 @@ Here's the complete working HTML file:
                                 { icon: 'fa-regular fa-file-lines', label: 'Terms & Conditions' },
                                 { icon: 'fa-regular fa-file-lines', label: 'Privacy Policy' },
                             ].map(item => (
-                                <div key={item.label} className="card" style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: 14,
-                                    cursor: 'pointer',
-                                    padding: '12px 16px'
-                                }}
+                                <div key={item.label} className="card" style={{ display: 'flex', alignItems: 'center',
+                                        gap: 14, cursor: 'pointer', padding: '12px 16px' }}
                                 onClick={() => showToast(`Opening ${item.label}...`)}>
                                     <i className={item.icon} style={{ width: 20, color: 'var(--text-muted)' }} />
                                     <span style={{ flex: 1, fontSize: 14 }}>{item.label}</span>
@@ -2750,20 +2535,20 @@ Here's the complete working HTML file:
                                 </div>
                             ))}
                         </div>
-
-                        <button className="btn btn-outline" style={{ marginTop: 16, color: '#ef4444', borderColor: '#ef4444' }}>
+                        <button className="btn btn-outline" style={{ marginTop: 16, color: '#ef4444',
+                                borderColor: '#ef4444' }}>
                             Logout
                         </button>
                     </div>
                 );
             };
 
+            // ---- WORKER REGISTER ----
             const WorkerRegister = () => {
                 const steps = ['Personal', 'CNIC', 'Police', 'Profession', 'Details', 'Submit'];
                 const stepLabels = ['Personal Info', 'CNIC Verification', 'Police Clearance', 'Profession', 'Experience & Skills',
                     'Review'
                 ];
-
                 return (
                     <div className="screen-container active">
                         <div className="app-header">
@@ -2776,43 +2561,45 @@ Here's the complete working HTML file:
                                 Step {workerStep}/{steps.length}
                             </span>
                         </div>
-
                         <div style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
                             {steps.map((_, i) => (
-                                <div key={i} style={{
-                                    flex: 1,
-                                    height: 3,
-                                    borderRadius: 4,
-                                    background: i < workerStep ? 'var(--accent)' : 'var(--border)',
-                                    transition: 'background 0.3s'
-                                }} />
+                                <div key={i} style={{ flex: 1, height: 3, borderRadius: 4,
+                                        background: i < workerStep ? 'var(--accent)' : 'var(--border)',
+                                        transition: 'background 0.3s' }} />
                             ))}
                         </div>
-
                         <h3 style={{ fontSize: 18, fontWeight: 700 }}>{stepLabels[workerStep - 1]}</h3>
 
                         {workerStep === 1 && (
                             <div style={{ marginTop: 12 }}>
-                                <div className="input-group"><label>Full Name</label><input value={workerForm.name}
-                                    onChange={e => setWorkerForm(f => ({ ...f, name: e.target.value }))} /></div>
-                                <div className="input-group" style={{ marginTop: 10 }}><label>Father/Husband Name</label><input
-                                    value={workerForm.father} onChange={e => setWorkerForm(f => ({ ...f,
-                                        father: e.target.value }))} /></div>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 10 }}>
-                                    <div className="input-group"><label>Date of Birth</label><input type="date"
-                                        value={workerForm.dob} onChange={e => setWorkerForm(f => ({ ...f,
-                                            dob: e.target.value }))} /></div>
-                                    <div className="input-group"><label>Gender</label><select value={workerForm.gender}
-                                        onChange={e => setWorkerForm(f => ({ ...f, gender: e.target.value }))}>
-                                            <option>Male</option><option>Female</option><option>Other</option>
-                                        </select></div>
+                                <div className="input-group"><label>Full Name</label>
+                                    <input value={workerForm.name} onChange={e => setWorkerForm(f => ({ ...f,
+                                            name: e.target.value }))} />
                                 </div>
-                                <div className="input-group" style={{ marginTop: 10 }}><label>CNIC</label><input
-                                    value={workerForm.cnic} onChange={e => setWorkerForm(f => ({ ...f,
-                                        cnic: e.target.value }))} placeholder="XXXXX-XXXXXXX-X" /></div>
-                                <div className="input-group" style={{ marginTop: 10 }}><label>Phone</label><input
-                                    value={workerForm.phone} onChange={e => setWorkerForm(f => ({ ...f,
-                                        phone: e.target.value }))} /></div>
+                                <div className="input-group" style={{ marginTop: 10 }}><label>Father/Husband Name</label>
+                                    <input value={workerForm.father} onChange={e => setWorkerForm(f => ({ ...f,
+                                            father: e.target.value }))} />
+                                </div>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 10 }}>
+                                    <div className="input-group"><label>Date of Birth</label>
+                                        <input type="date" value={workerForm.dob}
+                                        onChange={e => setWorkerForm(f => ({ ...f, dob: e.target.value }))} />
+                                    </div>
+                                    <div className="input-group"><label>Gender</label>
+                                        <select value={workerForm.gender} onChange={e => setWorkerForm(f => ({ ...f,
+                                                gender: e.target.value }))}>
+                                            <option>Male</option><option>Female</option><option>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="input-group" style={{ marginTop: 10 }}><label>CNIC</label>
+                                    <input value={workerForm.cnic} onChange={e => setWorkerForm(f => ({ ...f,
+                                            cnic: e.target.value }))} placeholder="XXXXX-XXXXXXX-X" />
+                                </div>
+                                <div className="input-group" style={{ marginTop: 10 }}><label>Phone</label>
+                                    <input value={workerForm.phone} onChange={e => setWorkerForm(f => ({ ...f,
+                                            phone: e.target.value }))} />
+                                </div>
                                 <button className="btn btn-accent" style={{ marginTop: 16 }} onClick={nextWorkerStep}>
                                     Next
                                 </button>
@@ -2865,10 +2652,12 @@ Here's the complete working HTML file:
                                         <i className="fa-solid fa-upload" /> Upload
                                     </button>
                                 </div>
-                                <div className="input-group" style={{ marginTop: 10 }}><label>Certificate Number</label><input
-                                    placeholder="Enter certificate number" /></div>
-                                <div className="input-group" style={{ marginTop: 10 }}><label>Issuing Authority</label><input
-                                    placeholder="e.g. District Police" /></div>
+                                <div className="input-group" style={{ marginTop: 10 }}><label>Certificate Number</label>
+                                    <input placeholder="Enter certificate number" />
+                                </div>
+                                <div className="input-group" style={{ marginTop: 10 }}><label>Issuing Authority</label>
+                                    <input placeholder="e.g. District Police" />
+                                </div>
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 10 }}>
                                     <div className="input-group"><label>Issue Date</label><input type="date" /></div>
                                     <div className="input-group"><label>Expiry Date</label><input type="date" /></div>
@@ -2881,24 +2670,26 @@ Here's the complete working HTML file:
 
                         {workerStep === 4 && (
                             <div style={{ marginTop: 12 }}>
-                                <div className="input-group"><label>Select Profession</label><select value={workerForm
-                                        .profession} onChange={e => setWorkerForm(f => ({ ...f, profession: e.target
-                                            .value }))}>
+                                <div className="input-group"><label>Select Profession</label>
+                                    <select value={workerForm.profession} onChange={e => setWorkerForm(f => ({ ...f,
+                                            profession: e.target.value }))}>
                                         {['House Cleaner', 'Cook', 'Babysitter', 'Maid', 'Laundry Worker', 'Driver',
                                             'Electrician', 'Plumber', 'Carpenter', 'Painter', 'Office Boy',
                                             'Security Guard', 'Gardener'
                                         ].map(p => <option key={p} value={p}>{p}</option>)}
-                                    </select></div>
-                                <div className="input-group" style={{ marginTop: 10 }}><label>Total Experience</label><select
-                                    value={workerForm.experience} onChange={e => setWorkerForm(f => ({ ...f,
-                                        experience: e.target.value }))}>
+                                    </select>
+                                </div>
+                                <div className="input-group" style={{ marginTop: 10 }}><label>Total Experience</label>
+                                    <select value={workerForm.experience} onChange={e => setWorkerForm(f => ({ ...f,
+                                            experience: e.target.value }))}>
                                         <option>No experience</option>
                                         <option>Less than 1 year</option>
                                         <option>1–2 years</option>
                                         <option>2–5 years</option>
                                         <option>5–10 years</option>
                                         <option>10+ years</option>
-                                    </select></div>
+                                    </select>
+                                </div>
                                 <button className="btn btn-accent" style={{ marginTop: 16 }} onClick={nextWorkerStep}>
                                     Next
                                 </button>
@@ -2910,23 +2701,25 @@ Here's the complete working HTML file:
                                 <div className="input-group"><label>Skills</label>
                                     <div className="chip-group" style={{ marginTop: 6 }}>
                                         {['Cleaning', 'Laundry', 'Ironing', 'Kitchen', 'Bathroom', 'Dusting',
-                                            'Mopping'].map(s => (
-                                                <span key={s} className={`chip ${workerForm.skills.includes(s) ? 'active' : ''}`}
-                                                onClick={() => {
-                                                    const set = new Set(workerForm.skills);
-                                                    if (set.has(s)) set.delete(s);
-                                                    else set.add(s);
-                                                    setWorkerForm(f => ({ ...f, skills: [...set] }));
-                                                }}>
-                                                    {s}
-                                                </span>
-                                            ))}
+                                            'Mopping'
+                                        ].map(s => (
+                                            <span key={s} className={`chip ${workerForm.skills.includes(s) ? 'active' : ''}`}
+                                            onClick={() => {
+                                                const set = new Set(workerForm.skills);
+                                                if (set.has(s)) set.delete(s);
+                                                else set.add(s);
+                                                setWorkerForm(f => ({ ...f, skills: [...set] }));
+                                            }}>
+                                                {s}
+                                            </span>
+                                        ))}
                                     </div>
                                 </div>
-                                <div className="input-group" style={{ marginTop: 10 }}><label>Bio</label><textarea
-                                    value={workerForm.bio} onChange={e => setWorkerForm(f => ({ ...f, bio: e.target
-                                            .value }))}
-                                    placeholder="Tell customers about yourself..." /></div>
+                                <div className="input-group" style={{ marginTop: 10 }}><label>Bio</label>
+                                    <textarea value={workerForm.bio} onChange={e => setWorkerForm(f => ({ ...f,
+                                            bio: e.target.value }))}
+                                    placeholder="Tell customers about yourself..." />
+                                </div>
                                 <button className="btn btn-accent" style={{ marginTop: 16 }} onClick={nextWorkerStep}>
                                     Next
                                 </button>
@@ -2946,8 +2739,7 @@ Here's the complete working HTML file:
                                     </div>
                                     <div style={{ marginTop: 10 }}>
                                         <span className="tag-pending">🟡 Pending Verification</span>
-                                        <span className="tag-police" style={{ marginLeft: 6 }}>🟡 Police Clearance
-                                            Pending</span>
+                                        <span className="tag-police" style={{ marginLeft: 6 }}>🟡 Police Clearance Pending</span>
                                     </div>
                                 </div>
                                 <button className="btn btn-accent" style={{ marginTop: 12 }} onClick={nextWorkerStep}>
@@ -2959,79 +2751,7 @@ Here's the complete working HTML file:
                 );
             };
 
-            const WorkerHome = () => {
-                return (
-                    <div className="screen-container active">
-                        <div className="app-header">
-                            <div className="brand">
-                                <span className="logo">RENT A <span>SERVANT</span></span>
-                            </div>
-                            <div className="header-actions">
-                                <button onClick={toggleTheme}>
-                                    <i className={theme === 'light' ? 'fa-regular fa-moon' : 'fa-regular fa-sun'} />
-                                </button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>Good Morning 👋</p>
-                            <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 2 }}>Maria Khan</h2>
-                        </div>
-
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                                marginTop: 12, padding: '12px 16px', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow)' }}>
-                            <div className="toggle-wrap">
-                                <span className="toggle-label">Availability</span>
-                                <div className={`toggle ${workerOnline ? 'active' : ''}`}
-                                onClick={() => setWorkerOnline(!workerOnline)}>
-                                    <div className="thumb" />
-                                </div>
-                            </div>
-                            <span style={{ fontSize: 13, fontWeight: 500, color: workerOnline ? '#0a7a3a' : 'var(--text-muted)' }}>
-                                {workerOnline ? '🟢 Online' : '🔴 Offline'}
-                            </span>
-                        </div>
-
-                        <div className="stats-row">
-                            <div className="stat"><div className="value">2</div><div className="label">Today's Jobs</div></div>
-                            <div className="stat"><div className="value">5</div><div className="label">New Requests</div></div>
-                            <div className="stat"><div className="value">PKR 4.5k</div><div className="label">Earnings</div></div>
-                            <div className="stat"><div className="value">4.9</div><div className="label">Rating</div></div>
-                        </div>
-
-                        <div style={{ marginTop: 8 }}>
-                            <div className="section-title">
-                                <span>New Requests</span>
-                                <span className="see-all" onClick={() => { setWorkerTab('requests');
-                                        goTo('worker-requests'); }}>See All</span>
-                            </div>
-                            {WORKER_REQUESTS.slice(0, 2).map(req => (
-                                <RequestCard key={req.id} request={req} onAccept={acceptRequest} onOffer={makeOffer} />
-                            ))}
-                        </div>
-
-                        <div style={{ marginTop: 12 }}>
-                            <div className="section-title">
-                                <span>Today's Jobs</span>
-                            </div>
-                            <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                                <div className="avatar" style={{ width: 44, height: 44, fontSize: 16 }}>AK</div>
-                                <div style={{ flex: 1 }}>
-                                    <div style={{ fontWeight: 600 }}>Ayesha Khan</div>
-                                    <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>House Cleaning • 10 AM</div>
-                                </div>
-                                <span className="tag-police">Active</span>
-                            </div>
-                        </div>
-
-                        <BottomNavWorker active={workerTab} setActive={(t) => { setWorkerTab(t);
-                                goTo(t === 'home' ? 'worker-home' : t === 'requests' ? 'worker-requests' :
-                                    t === 'jobs' ? 'worker-jobs' : t === 'earnings' ? 'worker-earnings' :
-                                    'worker-profile-page') }} />
-                    </div>
-                );
-            };
-
+            // ---- REQUEST CARD ----
             const RequestCard = ({ request, onAccept, onOffer }) => {
                 return (
                     <div className="request-card" style={{ marginBottom: 10 }}>
@@ -3057,51 +2777,88 @@ Here's the complete working HTML file:
                 );
             };
 
-            const BottomNavWorker = ({ active, setActive }) => {
-                const items = [
-                    { key: 'home', icon: 'fa-solid fa-house', label: 'Home' },
-                    { key: 'requests', icon: 'fa-regular fa-bell', label: 'Requests' },
-                    { key: 'jobs', icon: 'fa-regular fa-calendar-check', label: 'Jobs' },
-                    { key: 'earnings', icon: 'fa-regular fa-wallet', label: 'Earnings' },
-                    { key: 'profile', icon: 'fa-regular fa-user', label: 'Profile' },
-                ];
+            // ---- WORKER HOME ----
+            const WorkerHome = () => {
                 return (
-                    <div className="bottom-nav">
-                        {items.map(item => (
-                            <button key={item.key} className={`nav-item ${active === item.key ? 'active' : ''}`}
-                            onClick={() => setActive(item.key)}>
-                                <i className={item.icon} />
-                                <span>{item.label}</span>
-                                {item.key === 'requests' && <span className="badge">5</span>}
-                            </button>
-                        ))}
+                    <div className="screen-container active">
+                        <div className="app-header">
+                            <div className="brand"><span className="logo">RENT A <span>SERVANT</span></span></div>
+                            <div className="header-actions">
+                                <button onClick={toggleTheme}>
+                                    <i className={theme === 'light' ? 'fa-regular fa-moon' : 'fa-regular fa-sun'} />
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>Good Morning 👋</p>
+                            <h2 style={{ fontSize: 20, fontWeight: 700, marginTop: 2 }}>Maria Khan</h2>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12,
+                                padding: '12px 16px', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)',
+                                boxShadow: 'var(--shadow)' }}>
+                            <div className="toggle-wrap">
+                                <span className="toggle-label">Availability</span>
+                                <div className={`toggle ${workerOnline ? 'active' : ''}`}
+                                onClick={() => setWorkerOnline(!workerOnline)}>
+                                    <div className="thumb" />
+                                </div>
+                            </div>
+                            <span style={{ fontSize: 13, fontWeight: 500, color: workerOnline ? '#0a7a3a' :
+                                    'var(--text-muted)' }}>
+                                {workerOnline ? '🟢 Online' : '🔴 Offline'}
+                            </span>
+                        </div>
+                        <div className="stats-row">
+                            <div className="stat"><div className="value">2</div><div className="label">Today's Jobs</div></div>
+                            <div className="stat"><div className="value">5</div><div className="label">New Requests</div></div>
+                            <div className="stat"><div className="value">PKR 4.5k</div><div className="label">Earnings</div></div>
+                            <div className="stat"><div className="value">4.9</div><div className="label">Rating</div></div>
+                        </div>
+                        <div style={{ marginTop: 8 }}>
+                            <div className="section-title">
+                                <span>New Requests</span>
+                                <span className="see-all" onClick={() => { setWorkerTab('requests');
+                                        goTo('worker-requests'); }}>See All</span>
+                            </div>
+                            {WORKER_REQUESTS.slice(0, 2).map(req => (
+                                <RequestCard key={req.id} request={req} onAccept={acceptRequest} onOffer={makeOffer} />
+                            ))}
+                        </div>
+                        <div style={{ marginTop: 12 }}>
+                            <div className="section-title"><span>Today's Jobs</span></div>
+                            <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                                <div className="avatar" style={{ width: 44, height: 44, fontSize: 16 }}>AK</div>
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ fontWeight: 600 }}>Ayesha Khan</div>
+                                    <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>House Cleaning • 10 AM</div>
+                                </div>
+                                <span className="tag-police">Active</span>
+                            </div>
+                        </div>
+                        <BottomNavWorker active={workerTab} setActive={(t) => { setWorkerTab(t);
+                                goTo(t === 'home' ? 'worker-home' : t === 'requests' ? 'worker-requests' :
+                                    t === 'jobs' ? 'worker-jobs' : t === 'earnings' ? 'worker-earnings' :
+                                    'worker-profile-page'); }} />
                     </div>
                 );
             };
 
+            // ---- WORKER REQUESTS ----
             const WorkerRequests = () => {
                 const [tab, setTab] = useState('new');
                 const requests = tab === 'new' ? WORKER_REQUESTS : tab === 'pending' ? WORKER_REQUESTS.slice(0, 1) : [];
                 return (
                     <div className="screen-container active">
-                        <div className="app-header">
-                            <span style={{ fontWeight: 700, fontSize: 18 }}>Requests</span>
-                        </div>
-
+                        <div className="app-header"><span style={{ fontWeight: 700, fontSize: 18 }}>Requests</span></div>
                         <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
                             {['new', 'pending', 'accepted', 'declined'].map(t => (
-                                <button key={t} className={`btn ${tab === t ? 'btn-accent' : 'btn-outline'}`} style={{
-                                    flex: 1,
-                                    padding: '8px 0',
-                                    minHeight: 36,
-                                    fontSize: 12
-                                }}
+                                <button key={t} className={`btn ${tab === t ? 'btn-accent' : 'btn-outline'}`}
+                                style={{ flex: 1, padding: '8px 0', minHeight: 36, fontSize: 12 }}
                                 onClick={() => setTab(t)}>
                                     {t.charAt(0).toUpperCase() + t.slice(1)}
                                 </button>
                             ))}
                         </div>
-
                         {requests.length === 0 ? (
                             <div className="card" style={{ textAlign: 'center', padding: 40 }}>
                                 <i className="fa-regular fa-inbox" style={{ fontSize: 40, color: 'var(--text-muted)' }} />
@@ -3111,22 +2868,19 @@ Here's the complete working HTML file:
                             requests.map(req => <RequestCard key={req.id} request={req} onAccept={acceptRequest}
                                 onOffer={makeOffer} />)
                         )}
-
                         <BottomNavWorker active="requests" setActive={(t) => { setWorkerTab(t);
                                 goTo(t === 'home' ? 'worker-home' : t === 'requests' ? 'worker-requests' :
                                     t === 'jobs' ? 'worker-jobs' : t === 'earnings' ? 'worker-earnings' :
-                                    'worker-profile-page') }} />
+                                    'worker-profile-page'); }} />
                     </div>
                 );
             };
 
+            // ---- WORKER JOBS ----
             const WorkerJobs = () => {
                 return (
                     <div className="screen-container active">
-                        <div className="app-header">
-                            <span style={{ fontWeight: 700, fontSize: 18 }}>My Jobs</span>
-                        </div>
-
+                        <div className="app-header"><span style={{ fontWeight: 700, fontSize: 18 }}>My Jobs</span></div>
                         <div className="card" style={{ marginBottom: 10 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div><div style={{ fontWeight: 600 }}>Ayesha Khan</div>
@@ -3145,13 +2899,11 @@ Here's the complete working HTML file:
                                 onClick={() => goTo('chat')}>
                                     <i className="fa-regular fa-comment" /> Contact
                                 </button>
-                                <button className="btn btn-accent btn-sm" style={{ flex: 1 }}
-                                onClick={completeJob}>
+                                <button className="btn btn-accent btn-sm" style={{ flex: 1 }} onClick={completeJob}>
                                     <i className="fa-solid fa-check" /> Complete
                                 </button>
                             </div>
                         </div>
-
                         <div className="card" style={{ marginBottom: 10 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div><div style={{ fontWeight: 600 }}>Bilal Ahmed</div>
@@ -3163,28 +2915,24 @@ Here's the complete working HTML file:
                                 <i className="fa-regular fa-calendar" /> 12 Sep • 1:00 PM
                             </div>
                         </div>
-
                         <BottomNavWorker active="jobs" setActive={(t) => { setWorkerTab(t);
                                 goTo(t === 'home' ? 'worker-home' : t === 'requests' ? 'worker-requests' :
                                     t === 'jobs' ? 'worker-jobs' : t === 'earnings' ? 'worker-earnings' :
-                                    'worker-profile-page') }} />
+                                    'worker-profile-page'); }} />
                     </div>
                 );
             };
 
+            // ---- WORKER EARNINGS ----
             const WorkerEarnings = () => {
                 return (
                     <div className="screen-container active">
-                        <div className="app-header">
-                            <span style={{ fontWeight: 700, fontSize: 18 }}>Earnings</span>
-                        </div>
-
+                        <div className="app-header"><span style={{ fontWeight: 700, fontSize: 18 }}>Earnings</span></div>
                         <div className="card" style={{ textAlign: 'center', padding: 24 }}>
                             <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>Total Earnings</div>
                             <div style={{ fontSize: 36, fontWeight: 800, color: 'var(--accent)', marginTop: 4 }}>PKR 18,500</div>
                             <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>This month</div>
                         </div>
-
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginTop: 12 }}>
                             <div className="card" style={{ textAlign: 'center', padding: 14 }}>
                                 <div style={{ fontSize: 14, fontWeight: 700 }}>12</div>
@@ -3195,7 +2943,6 @@ Here's the complete working HTML file:
                                 <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Avg Rating</div>
                             </div>
                         </div>
-
                         <div style={{ marginTop: 12 }}>
                             <div className="section-title"><span>Recent Payments</span></div>
                             {[
@@ -3211,15 +2958,15 @@ Here's the complete working HTML file:
                                 </div>
                             ))}
                         </div>
-
                         <BottomNavWorker active="earnings" setActive={(t) => { setWorkerTab(t);
                                 goTo(t === 'home' ? 'worker-home' : t === 'requests' ? 'worker-requests' :
                                     t === 'jobs' ? 'worker-jobs' : t === 'earnings' ? 'worker-earnings' :
-                                    'worker-profile-page') }} />
+                                    'worker-profile-page'); }} />
                     </div>
                 );
             };
 
+            // ---- WORKER PROFILE PAGE ----
             const WorkerProfilePage = () => {
                 return (
                     <div className="screen-container active">
@@ -3230,7 +2977,6 @@ Here's the complete working HTML file:
                                 <i className="fa-solid fa-pen" />
                             </button>
                         </div>
-
                         <div className="profile-header">
                             <div className="avatar-lg" style={{ fontSize: 28 }}>MK</div>
                             <div className="info">
@@ -3238,12 +2984,10 @@ Here's the complete working HTML file:
                                 <p>House Cleaner</p>
                                 <div style={{ display: 'flex', gap: 6, marginTop: 4, flexWrap: 'wrap' }}>
                                     <span className="verification-badge"><i className="fa-solid fa-shield-check" /> Verified</span>
-                                    <span className="verification-badge-police"><i className="fa-solid fa-badge-check" /> Police
-                                        ✓</span>
+                                    <span className="verification-badge-police"><i className="fa-solid fa-badge-check" /> Police ✓</span>
                                 </div>
                             </div>
                         </div>
-
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
                             <div className="card" style={{ textAlign: 'center', padding: '10px 4px' }}>
                                 <div style={{ fontWeight: 700, fontSize: 16 }}>4.9</div>
@@ -3258,21 +3002,15 @@ Here's the complete working HTML file:
                                 <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Jobs</div>
                             </div>
                         </div>
-
                         <div className="card" style={{ marginTop: 12 }}>
                             <h4 style={{ fontWeight: 600, marginBottom: 6 }}>Verification Status</h4>
                             <div className="verification-list">
-                                <div className="item"><i className="fa-solid fa-id-card" /> Identity Verified <span
-                                    className="status verified">✓</span></div>
-                                <div className="item"><i className="fa-solid fa-id-card" /> CNIC Verified <span
-                                    className="status verified">✓</span></div>
-                                <div className="item"><i className="fa-solid fa-badge-check" /> Police Clearance <span
-                                    className="status verified">✓</span></div>
-                                <div className="item"><i className="fa-solid fa-certificate" /> Experience Verified <span
-                                    className="status verified">✓</span></div>
+                                <div className="item"><i className="fa-solid fa-id-card" /> Identity Verified <span className="status verified">✓</span></div>
+                                <div className="item"><i className="fa-solid fa-id-card" /> CNIC Verified <span className="status verified">✓</span></div>
+                                <div className="item"><i className="fa-solid fa-badge-check" /> Police Clearance <span className="status verified">✓</span></div>
+                                <div className="item"><i className="fa-solid fa-certificate" /> Experience Verified <span className="status verified">✓</span></div>
                             </div>
                         </div>
-
                         <div className="card" style={{ marginTop: 12 }}>
                             <h4 style={{ fontWeight: 600, marginBottom: 6 }}>Skills</h4>
                             <div className="chip-group">
@@ -3282,33 +3020,30 @@ Here's the complete working HTML file:
                                 ))}
                             </div>
                         </div>
-
-                        <button className="btn btn-outline" style={{ marginTop: 12, color: '#ef4444', borderColor: '#ef4444' }}>
+                        <button className="btn btn-outline" style={{ marginTop: 12, color: '#ef4444',
+                                borderColor: '#ef4444' }}>
                             Logout
                         </button>
-
                         <BottomNavWorker active="profile" setActive={(t) => { setWorkerTab(t);
                                 goTo(t === 'home' ? 'worker-home' : t === 'requests' ? 'worker-requests' :
                                     t === 'jobs' ? 'worker-jobs' : t === 'earnings' ? 'worker-earnings' :
-                                    'worker-profile-page') }} />
+                                    'worker-profile-page'); }} />
                     </div>
                 );
             };
 
+            // ---- MODAL ----
             const Modal = () => {
                 if (!showModal) return null;
                 const isHire = modalAction === 'hire';
-                const isOffer = modalAction === 'accept-offer';
                 const worker = isHire ? selectedWorker : selectedOffer;
-
                 return (
                     <div className="modal-overlay show" onClick={() => setShowModal(false)}>
                         <div className="modal-box" onClick={e => e.stopPropagation()}>
                             <h3>{isHire ? 'Hire Professional' : 'Accept Offer'}</h3>
                             <p>
-                                {isHire
-                                    ? `Are you sure you want to hire ${worker?.name}?`
-                                    : `You are about to accept the offer from ${worker?.name} for PKR ${worker?.price?.toLocaleString()}`}
+                                {isHire ? `Are you sure you want to hire ${worker?.name}?` :
+                                    `You are about to accept the offer from ${worker?.name} for PKR ${worker?.price?.toLocaleString()}`}
                             </p>
                             {isHire && worker && (
                                 <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginBottom: 12 }}>
@@ -3329,6 +3064,7 @@ Here's the complete working HTML file:
                 );
             };
 
+            // ---- ROUTER ----
             const renderScreen = () => {
                 switch (screen) {
                     case 'splash':
@@ -3392,4 +3128,3 @@ Here's the complete working HTML file:
 
 </body>
 </html>
-```

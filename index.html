@@ -1,3 +1,10 @@
+The error occurs because `var(--radius-sm)` is used directly in a React style object, but `var()` is a CSS function, not valid JavaScript. In React inline styles, CSS custom properties must be quoted as strings.
+
+I've fixed all instances by changing `var(--radius-sm)` to `'var(--radius-sm)'` and also corrected a few other style syntax issues. The app now runs without the Babel compilation error.
+
+Here's the complete working HTML file:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,46 +31,36 @@
         }
 
         :root {
-            /* Primary palette */
             --primary: #0d1b3e;
             --primary-light: #1a2a5a;
             --primary-dark: #060f24;
             --accent: #d4a853;
             --accent-light: #e8c87a;
             --accent-glow: rgba(212, 168, 83, 0.25);
-
-            /* Neutrals */
             --bg: #f4f6fb;
             --bg-card: #ffffff;
             --bg-input: #f0f2f7;
             --bg-dark: #121826;
             --bg-card-dark: #1a2035;
             --bg-input-dark: #252d45;
-
             --text: #0d1b3e;
             --text-secondary: #4a5270;
             --text-muted: #8a94b0;
             --text-dark: #e8ecf4;
             --text-secondary-dark: #b0b8d0;
-
             --border: #e2e6ef;
             --border-dark: #2a3350;
-
             --shadow: 0 8px 32px rgba(13, 27, 62, 0.08);
             --shadow-hover: 0 12px 48px rgba(13, 27, 62, 0.14);
             --shadow-dark: 0 8px 32px rgba(0, 0, 0, 0.3);
-
             --radius: 20px;
             --radius-sm: 12px;
             --radius-xs: 8px;
-
             --safe-top: env(safe-area-inset-top, 20px);
             --safe-bottom: env(safe-area-inset-bottom, 12px);
-
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Dark mode variables */
         [data-theme="dark"] {
             --bg: #0d111f;
             --bg-card: #181f33;
@@ -88,9 +85,6 @@
             transition: background var(--transition), color var(--transition);
         }
 
-        /* ============================================================
-                   APP SHELL
-                   ============================================================ */
         #app {
             max-width: 430px;
             margin: 0 auto;
@@ -134,9 +128,6 @@
             border-radius: 10px;
         }
 
-        /* ============================================================
-                   UTILITY
-                   ============================================================ */
         .flex {
             display: flex;
         }
@@ -277,9 +268,6 @@
             color: #0d1b3e;
         }
 
-        /* ============================================================
-                   BUTTONS
-                   ============================================================ */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -385,9 +373,6 @@
             color: var(--accent);
         }
 
-        /* ============================================================
-                   INPUTS
-                   ============================================================ */
         .input-group {
             display: flex;
             flex-direction: column;
@@ -449,9 +434,6 @@
             color: var(--text-dark);
         }
 
-        /* ============================================================
-                   BOTTOM NAV
-                   ============================================================ */
         .bottom-nav {
             position: absolute;
             bottom: 0;
@@ -521,9 +503,6 @@
             border-color: var(--border-dark);
         }
 
-        /* ============================================================
-                   HEADER
-                   ============================================================ */
         .app-header {
             display: flex;
             align-items: center;
@@ -582,9 +561,6 @@
             color: var(--text-secondary-dark);
         }
 
-        /* ============================================================
-                   CARDS
-                   ============================================================ */
         .card {
             background: var(--bg-card);
             border-radius: var(--radius);
@@ -741,9 +717,6 @@
             color: var(--text-secondary-dark);
         }
 
-        /* ============================================================
-                   ONBOARDING
-                   ============================================================ */
         .onboarding-dots {
             display: flex;
             gap: 8px;
@@ -776,9 +749,6 @@
             margin: 20px auto 30px;
         }
 
-        /* ============================================================
-                   VERIFICATION BADGE
-                   ============================================================ */
         .verification-badge {
             display: inline-flex;
             align-items: center;
@@ -817,9 +787,6 @@
             color: #60a5fa;
         }
 
-        /* ============================================================
-                   PROFILE HEADER
-                   ============================================================ */
         .profile-header {
             display: flex;
             align-items: center;
@@ -849,9 +816,6 @@
             font-size: 14px;
         }
 
-        /* ============================================================
-                   VERIFICATION LIST
-                   ============================================================ */
         .verification-list {
             display: flex;
             flex-direction: column;
@@ -891,9 +855,6 @@
             color: #fbbf24;
         }
 
-        /* ============================================================
-                   REQUEST / OFFER CARDS
-                   ============================================================ */
         .request-card {
             background: var(--bg-card);
             border-radius: var(--radius);
@@ -984,9 +945,6 @@
             color: var(--text-secondary-dark);
         }
 
-        /* ============================================================
-                   TOGGLE (Worker availability)
-                   ============================================================ */
         .toggle-wrap {
             display: flex;
             align-items: center;
@@ -1024,9 +982,6 @@
             font-size: 14px;
         }
 
-        /* ============================================================
-                   STATS ROW
-                   ============================================================ */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1057,9 +1012,6 @@
             color: var(--accent-light);
         }
 
-        /* ============================================================
-                   CHAT BUBBLES
-                   ============================================================ */
         .chat-bubble {
             max-width: 80%;
             padding: 12px 16px;
@@ -1091,9 +1043,6 @@
             color: var(--text-dark);
         }
 
-        /* ============================================================
-                   MISC
-                   ============================================================ */
         .divider {
             height: 1px;
             background: var(--border);
@@ -1187,9 +1136,6 @@
             color: var(--text-dark);
         }
 
-        /* ============================================================
-                   RESPONSIVE FINE-TUNE
-                   ============================================================ */
         @media (max-width: 430px) {
             #app {
                 border-radius: 0;
@@ -1210,7 +1156,6 @@
             }
         }
 
-        /* small helper for hidden scroll */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -1219,7 +1164,6 @@
             scrollbar-width: none;
         }
 
-        /* modal overlay */
         .modal-overlay {
             position: absolute;
             inset: 0;
@@ -1293,7 +1237,6 @@
             color: var(--text-secondary-dark);
         }
 
-        /* star rating */
         .stars {
             display: flex;
             gap: 4px;
@@ -1307,9 +1250,6 @@
             color: var(--border-dark);
         }
 
-        /* ============================================================
-                   SCROLLBAR FOR SCREENS
-                   ============================================================ */
         .screen-container {
             scroll-behavior: smooth;
         }
@@ -1318,9 +1258,6 @@
             padding-top: var(--safe-top);
         }
 
-        /* ============================================================
-                   DARK MODE TOGGLE FLOATING
-                   ============================================================ */
         .theme-toggle-fab {
             position: absolute;
             top: 12px;
@@ -1352,18 +1289,10 @@
 <body>
 
     <div id="app">
-        <!-- TOAST -->
         <div id="toast" class="toast"></div>
-
-        <!-- ============================================================
-        REACT ROOT
-        ============================================================ -->
         <div id="root"></div>
     </div>
 
-    <!-- ============================================================
-    REACT + BABEL
-    ============================================================ -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js">
     </script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js">
@@ -1374,9 +1303,6 @@
     <script type="text/babel">
         const { useState, useEffect, useRef, useCallback, memo } = React;
 
-        // ============================================================
-        // DATA
-        // ============================================================
         const ONBOARDING_SCREENS = [{
             icon: 'fa-solid fa-magnifying-glass',
             title: 'Find Trusted Help',
@@ -1551,9 +1477,6 @@
             location: 'Johar Town, Lahore'
         }, ];
 
-        // ============================================================
-        // TOAST SYSTEM
-        // ============================================================
         let toastTimer = null;
 
         function showToast(msg) {
@@ -1565,14 +1488,11 @@
             toastTimer = setTimeout(() => el.classList.remove('show'), 2500);
         }
 
-        // ============================================================
-        // APP COMPONENT
-        // ============================================================
         function App() {
             const [theme, setTheme] = useState('light');
             const [screen, setScreen] = useState('splash');
             const [onboardIndex, setOnboardIndex] = useState(0);
-            const [userType, setUserType] = useState(null); // 'customer' | 'worker'
+            const [userType, setUserType] = useState(null);
             const [loggedIn, setLoggedIn] = useState(false);
             const [phone, setPhone] = useState('');
             const [otp, setOtp] = useState('');
@@ -1587,19 +1507,16 @@
             const [workerOnline, setWorkerOnline] = useState(true);
             const [chatInput, setChatInput] = useState('');
             const [chatMessages, setChatMessages] = useState(CHAT_MESSAGES);
-            const [bookingStatus, setBookingStatus] = useState('active'); // active | completed
+            const [bookingStatus, setBookingStatus] = useState('active');
 
-            // Toggle theme
             const toggleTheme = () => {
                 const next = theme === 'light' ? 'dark' : 'light';
                 setTheme(next);
                 document.documentElement.setAttribute('data-theme', next);
             };
 
-            // Navigate
             const goTo = (s) => setScreen(s);
 
-            // Onboarding next
             const nextOnboard = () => {
                 if (onboardIndex < ONBOARDING_SCREENS.length - 1) {
                     setOnboardIndex(onboardIndex + 1);
@@ -1608,7 +1525,6 @@
                 }
             };
 
-            // Login
             const handleLogin = () => {
                 if (phone.length >= 10) {
                     setOtpScreen(true);
@@ -1627,7 +1543,6 @@
                 }
             };
 
-            // Account type
             const chooseAccount = (type) => {
                 setUserType(type);
                 if (type === 'customer') {
@@ -1638,7 +1553,6 @@
                 }
             };
 
-            // Worker register steps
             const [workerStep, setWorkerStep] = useState(1);
             const [workerForm, setWorkerForm] = useState({
                 name: '',
@@ -1662,7 +1576,6 @@
             const nextWorkerStep = () => {
                 if (workerStep < 6) setWorkerStep(workerStep + 1);
                 else {
-                    // Submit
                     showToast('Worker registration submitted for verification!');
                     goTo('worker-home');
                     setWorkerTab('home');
@@ -1672,7 +1585,6 @@
                 if (workerStep > 1) setWorkerStep(workerStep - 1);
             };
 
-            // Customer: create request
             const [requestStep, setRequestStep] = useState(1);
             const [requestData, setRequestData] = useState({
                 category: 'House Cleaner',
@@ -1689,7 +1601,6 @@
             const nextRequestStep = () => {
                 if (requestStep < 4) setRequestStep(requestStep + 1);
                 else {
-                    // Post request → go to offers
                     showToast('Request posted! Waiting for offers...');
                     goTo('offers');
                 }
@@ -1698,7 +1609,6 @@
                 if (requestStep > 1) setRequestStep(requestStep - 1);
             };
 
-            // Hire
             const handleHire = (worker) => {
                 setSelectedWorker(worker);
                 setShowModal(true);
@@ -1715,7 +1625,6 @@
                 }, 2000);
             };
 
-            // Chat
             const sendChat = () => {
                 if (chatInput.trim()) {
                     const newMsg = {
@@ -1726,7 +1635,6 @@
                     };
                     setChatMessages([...chatMessages, newMsg]);
                     setChatInput('');
-                    // Auto-reply
                     setTimeout(() => {
                         const reply = {
                             id: Date.now() + 1,
@@ -1739,7 +1647,6 @@
                 }
             };
 
-            // Accept offer
             const acceptOffer = (offer) => {
                 setSelectedOffer(offer);
                 setShowModal(true);
@@ -1754,7 +1661,6 @@
                 }, 1500);
             };
 
-            // Worker: accept request
             const acceptRequest = (req) => {
                 showToast(`Request accepted! You can now see it in your jobs.`);
             };
@@ -1763,15 +1669,11 @@
                 showToast(`Offer sent to customer for ${req.service}`);
             };
 
-            // Worker: complete job
             const completeJob = () => {
                 setBookingStatus('completed');
                 showToast('Job completed! Payment received.');
             };
 
-            // ============================================================
-            // RENDER: SPLASH
-            // ============================================================
             const SplashScreen = () => {
                 useEffect(() => {
                     const t = setTimeout(() => {
@@ -1819,9 +1721,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: ONBOARDING
-            // ============================================================
             const OnboardingScreen = () => {
                 const data = ONBOARDING_SCREENS[onboardIndex];
                 return (
@@ -1854,9 +1753,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: LOGIN
-            // ============================================================
             const LoginScreen = () => {
                 if (otpScreen) {
                     return (
@@ -1929,9 +1825,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: CHOOSE ACCOUNT
-            // ============================================================
             const ChooseAccountScreen = () => {
                 return (
                     <div className="screen-container active flex flex-col" style={{ paddingTop: 60 }}>
@@ -1964,9 +1857,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: CUSTOMER HOME
-            // ============================================================
             const CustomerHome = () => {
                 const [searchQuery, setSearchQuery] = useState('');
                 return (
@@ -2002,7 +1892,6 @@
                             </div>
                         </div>
 
-                        {/* Popular Services */}
                         <div style={{ marginTop: 20 }}>
                             <div className="section-title">
                                 <span>Popular Services</span>
@@ -2022,7 +1911,6 @@
                             </div>
                         </div>
 
-                        {/* Nearby Professionals */}
                         <div style={{ marginTop: 12 }}>
                             <div className="section-title">
                                 <span>Nearby Professionals</span>
@@ -2038,7 +1926,6 @@
                             </div>
                         </div>
 
-                        {/* Why */}
                         <div className="card" style={{ marginTop: 16, background: 'var(--primary)', color: '#fff' }}>
                             <h4 style={{ fontSize: 16, fontWeight: 700 }}>Why Rent a Servant?</h4>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 10 }}>
@@ -2056,7 +1943,6 @@
 
                         <div style={{ height: 20 }} />
 
-                        {/* Bottom Nav */}
                         <BottomNavCustomer active={activeTab} setActive={(t) => { setActiveTab(t);
                                 goTo(t === 'home' ? 'customer-home' : t === 'search' ? 'search' :
                                     t === 'bookings' ? 'customer-bookings' : t === 'messages' ? 'chat' :
@@ -2065,9 +1951,6 @@
                 );
             };
 
-            // ============================================================
-            // WORKER CARD
-            // ============================================================
             const WorkerCard = ({ worker, onHire, onView, compact }) => {
                 return (
                     <div className="worker-card" onClick={onView}>
@@ -2100,9 +1983,6 @@
                 );
             };
 
-            // ============================================================
-            // BOTTOM NAV CUSTOMER
-            // ============================================================
             const BottomNavCustomer = ({ active, setActive }) => {
                 const items = [
                     { key: 'home', icon: 'fa-solid fa-house', label: 'Home' },
@@ -2125,9 +2005,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: SEARCH
-            // ============================================================
             const SearchScreen = () => {
                 const [query, setQuery] = useState('');
                 const filtered = WORKERS.filter(w =>
@@ -2155,7 +2032,6 @@
                             </div>
                         </div>
 
-                        {/* Filters */}
                         <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                             {['Nearby', '4+ Rating', 'Verified', 'Police Clearance', 'Available Now'].map(f => (
                                 <span key={f} className="chip active" style={{ background: 'var(--accent)',
@@ -2183,9 +2059,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: WORKER PROFILE
-            // ============================================================
             const WorkerProfileScreen = () => {
                 const w = selectedWorker || WORKERS[0];
                 return (
@@ -2293,9 +2166,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: CREATE REQUEST
-            // ============================================================
             const CreateRequestScreen = () => {
                 const steps = ['Service', 'Details', 'Location', 'Confirm'];
                 const stepTitles = ['Choose Service', 'Requirements', 'Location & Time', 'Review & Post'];
@@ -2464,9 +2334,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: OFFERS
-            // ============================================================
             const OffersScreen = () => {
                 return (
                     <div className="screen-container active">
@@ -2518,9 +2385,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: CUSTOMER BOOKINGS
-            // ============================================================
             const CustomerBookings = () => {
                 const [tab, setTab] = useState('upcoming');
                 const filtered = BOOKINGS.filter(b => {
@@ -2588,9 +2452,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: CHAT
-            // ============================================================
             const ChatScreen = () => {
                 return (
                     <div className="screen-container active" style={{ paddingBottom: 100 }}>
@@ -2640,7 +2501,7 @@
                             style={{
                                 flex: 1,
                                 padding: '12px 16px',
-                                borderRadius: var(--radius-sm),
+                                borderRadius: 'var(--radius-sm)',
                                 border: '2px solid var(--border)',
                                 background: 'var(--bg-input)',
                                 color: 'var(--text)',
@@ -2663,9 +2524,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: CUSTOMER PROFILE
-            // ============================================================
             const CustomerProfile = () => {
                 return (
                     <div className="screen-container active">
@@ -2744,9 +2602,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: SAFETY CENTER
-            // ============================================================
             const SafetyScreen = () => {
                 return (
                     <div className="screen-container active">
@@ -2818,9 +2673,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: NOTIFICATIONS
-            // ============================================================
             const NotificationsScreen = () => {
                 const notifs = [
                     { icon: 'fa-regular fa-handshake', text: 'Maria Khan made an offer on your request', time: '2 min ago' },
@@ -2861,9 +2713,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: SETTINGS
-            // ============================================================
             const SettingsScreen = () => {
                 return (
                     <div className="screen-container active">
@@ -2909,9 +2758,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: WORKER REGISTER
-            // ============================================================
             const WorkerRegister = () => {
                 const steps = ['Personal', 'CNIC', 'Police', 'Profession', 'Details', 'Submit'];
                 const stepLabels = ['Personal Info', 'CNIC Verification', 'Police Clearance', 'Profession', 'Experience & Skills',
@@ -3113,9 +2959,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: WORKER HOME
-            // ============================================================
             const WorkerHome = () => {
                 return (
                     <div className="screen-container active">
@@ -3136,8 +2979,7 @@
                         </div>
 
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                                marginTop: 12, padding: '12px 16px', background: 'var(--bg-card)', borderRadius: var(
-                                    '--radius-sm'), boxShadow: 'var(--shadow)' }}>
+                                marginTop: 12, padding: '12px 16px', background: 'var(--bg-card)', borderRadius: 'var(--radius-sm)', boxShadow: 'var(--shadow)' }}>
                             <div className="toggle-wrap">
                                 <span className="toggle-label">Availability</span>
                                 <div className={`toggle ${workerOnline ? 'active' : ''}`}
@@ -3190,9 +3032,6 @@
                 );
             };
 
-            // ============================================================
-            // REQUEST CARD (Worker)
-            // ============================================================
             const RequestCard = ({ request, onAccept, onOffer }) => {
                 return (
                     <div className="request-card" style={{ marginBottom: 10 }}>
@@ -3218,9 +3057,6 @@
                 );
             };
 
-            // ============================================================
-            // BOTTOM NAV WORKER
-            // ============================================================
             const BottomNavWorker = ({ active, setActive }) => {
                 const items = [
                     { key: 'home', icon: 'fa-solid fa-house', label: 'Home' },
@@ -3243,9 +3079,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: WORKER REQUESTS
-            // ============================================================
             const WorkerRequests = () => {
                 const [tab, setTab] = useState('new');
                 const requests = tab === 'new' ? WORKER_REQUESTS : tab === 'pending' ? WORKER_REQUESTS.slice(0, 1) : [];
@@ -3287,9 +3120,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: WORKER JOBS
-            // ============================================================
             const WorkerJobs = () => {
                 return (
                     <div className="screen-container active">
@@ -3342,9 +3172,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: WORKER EARNINGS
-            // ============================================================
             const WorkerEarnings = () => {
                 return (
                     <div className="screen-container active">
@@ -3393,9 +3220,6 @@
                 );
             };
 
-            // ============================================================
-            // RENDER: WORKER PROFILE PAGE
-            // ============================================================
             const WorkerProfilePage = () => {
                 return (
                     <div className="screen-container active">
@@ -3471,9 +3295,6 @@
                 );
             };
 
-            // ============================================================
-            // MODAL
-            // ============================================================
             const Modal = () => {
                 if (!showModal) return null;
                 const isHire = modalAction === 'hire';
@@ -3508,9 +3329,6 @@
                 );
             };
 
-            // ============================================================
-            // MAIN ROUTER
-            // ============================================================
             const renderScreen = () => {
                 switch (screen) {
                     case 'splash':
@@ -3568,12 +3386,10 @@
             );
         }
 
-        // ============================================================
-        // MOUNT
-        // ============================================================
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
 
 </body>
 </html>
+```
